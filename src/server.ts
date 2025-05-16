@@ -1,5 +1,6 @@
 import Fastify from "fastify";
 import dotenv from "dotenv";
+import { swaggerPlugin } from "./plugins/swagger";
 dotenv.config();
 
 const fastify = Fastify({
@@ -7,6 +8,8 @@ const fastify = Fastify({
 });
 
 async function main() {
+  await swaggerPlugin(fastify);
+
   fastify.listen(
     { port: Number(process.env.PORT) ?? 3000 },
     function (err, address) {
