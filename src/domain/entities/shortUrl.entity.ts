@@ -24,7 +24,6 @@ export class ShortUrl {
   }
 
   static transformFromInternalClass(shortUrl: IShortUrl): ShortUrl {
-    console.log(shortUrl);
     const deletedAt = shortUrl.deletedAt
       ? toSpISOString(shortUrl.deletedAt)
       : null;
@@ -94,6 +93,10 @@ export class ShortUrl {
 
   setAccessShortUrlLogs(accessShortUrlLogs: AccessShortUrlLog[]) {
     this.accessShortUrlLogs = accessShortUrlLogs;
+  }
+
+  setHost(host: string) {
+    this.host = host;
   }
 
   getUrl() {

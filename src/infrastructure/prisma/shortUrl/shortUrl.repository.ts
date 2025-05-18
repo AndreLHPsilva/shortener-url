@@ -33,6 +33,7 @@ export class ShortUrlRepository implements IShortUrlRepository {
     const shortUrl = await this.repository.findFirst({
       where: {
         id,
+        deletedAt: null,
       },
     });
 
@@ -47,6 +48,7 @@ export class ShortUrlRepository implements IShortUrlRepository {
     const shortUrl = await this.repository.findFirst({
       where: {
         identifier,
+        deletedAt: null,
       },
     });
 
@@ -75,5 +77,30 @@ export class ShortUrlRepository implements IShortUrlRepository {
     });
 
     return shortUrlsFormatted;
+  }
+
+  async update(shortUrl: ShortUrl): Promise<void> {
+    const shortUrlData = shortUrl.getProps();
+    await this.repository.update({
+      where: {
+        id: shortUrlData.id!,
+      },
+      data: {
+        host: shortUrlData.host,
+        path: shortUrlData.path,
+        expiresIn: shortUrlData.expiresIn,
+        identifier: shortUrlData.identifier,
+        protocol: shortUrlData.protocol,
+        ...(shortUrlData.userId && {
+          user: {
+            connect: {
+              id: shortUrlData.userId,
+            },
+          },
+        }),
+      },
+    });
+
+    return;
   }
 }
