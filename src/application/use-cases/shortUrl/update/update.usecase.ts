@@ -6,16 +6,23 @@ import { IShortUrlRepository } from "@infrastructure/prisma/shortUrl/contract/sh
 import { FailedGenerateIdentifierError } from "@shared/errors/FailedGenerateIdentifierError.js";
 import { IUpdateShortUrlUseCaseProps } from "./types.js";
 import { ShortUrlNotFoundedError } from "@shared/errors/ShortUrlNotFounded.js";
+import { ICreateLogWhenUpdateUseCaseProps } from "../createLogWhenUpdate/types.js";
 
 export class UpdateShortUrlUseCase extends UseCase<
   IUpdateShortUrlUseCaseProps,
   void
 > {
-  constructor(private repository: IShortUrlRepository) {
+  constructor(
+    private repository: IShortUrlRepository,
+    private createLogWhenUpdateUseCase: UseCase<
+      ICreateLogWhenUpdateUseCaseProps,
+      void
+    >
+  ) {
     super();
   }
 
-  async execute({ shortUrlId, host }: IUpdateShortUrlUseCaseProps) {
+  async execute({ shortUrlId, host, userId }: IUpdateShortUrlUseCaseProps) {
     const shortUrl = await this.repository.findById(shortUrlId);
 
     if (!shortUrl) {
@@ -25,6 +32,11 @@ export class UpdateShortUrlUseCase extends UseCase<
     shortUrl.setHost(host);
 
     await this.repository.update(shortUrl);
+    
+    await this.createLogWhenUpdateUseCase.execute({
+      shortUrlId,
+      userId,
+    });
 
     return;
   }
