@@ -29,11 +29,11 @@ export class ShortUrlRepository implements IShortUrlRepository {
     return;
   }
 
-  async findById(id: string): Promise<ShortUrl | null> {
+  async findById(id: string, ignoreDeleted = false): Promise<ShortUrl | null> {
     const shortUrl = await this.repository.findFirst({
       where: {
         id,
-        deletedAt: null,
+        ...(!ignoreDeleted && { deletedAt: null }),
       },
     });
 
@@ -66,6 +66,7 @@ export class ShortUrlRepository implements IShortUrlRepository {
     const shortUrls = await this.repository.findMany({
       where: {
         userId,
+        deletedAt: null,
       },
       include: {
         ...(includeAccessShortUrlLog && { AccessShortUrlLogs: true }),
@@ -89,6 +90,7 @@ export class ShortUrlRepository implements IShortUrlRepository {
         host: shortUrlData.host,
         path: shortUrlData.path,
         expiresIn: shortUrlData.expiresIn,
+        deletedAt: shortUrlData.deletedAt,
         identifier: shortUrlData.identifier,
         protocol: shortUrlData.protocol,
         ...(shortUrlData.userId && {

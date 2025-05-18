@@ -1,6 +1,9 @@
 import { toSpISOString } from "@shared/utils/date/index.js";
 import { ShortUrl } from "./shortUrl.entity.js";
-import { IShortUrlLog } from "@domain/interfaces/shortUrlLog.interface.js";
+import {
+  EActionShortUrlLog,
+  IShortUrlLog,
+} from "@domain/interfaces/shortUrlLog.interface.js";
 
 export class ShortUrlLog {
   constructor(
@@ -10,6 +13,7 @@ export class ShortUrlLog {
     private updatedAt: string,
     private newValue: string,
     private oldValue: string,
+    private action: EActionShortUrlLog,
     private shortUrl: ShortUrl | null
   ) {}
 
@@ -19,6 +23,7 @@ export class ShortUrlLog {
     userId: string,
     newValue: string,
     oldValue: string,
+    action: EActionShortUrlLog,
     shortUrl: ShortUrl
   ) {
     const date = toSpISOString();
@@ -29,6 +34,7 @@ export class ShortUrlLog {
       date,
       newValue,
       oldValue,
+      action,
       shortUrl
     );
   }
@@ -45,6 +51,7 @@ export class ShortUrlLog {
       toSpISOString(accessShortUrlLog.updatedAt),
       accessShortUrlLog.newValue,
       accessShortUrlLog.oldValue,
+      accessShortUrlLog.action,
       shortUrl
     );
   }
@@ -65,6 +72,7 @@ export class ShortUrlLog {
       newValue: this.newValue,
       oldValue: this.oldValue,
       shortUrl: this.shortUrl,
+      action: this.action,
       updatedAt: this.updatedAt,
     };
   }

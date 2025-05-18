@@ -1,16 +1,12 @@
 import { UseCase } from "@application/use-cases/contract/useCase.js";
-import { ShortUrl } from "@domain/entities/shortUrl.entity.js";
-import { IdentifierObjValue } from "@domain/valueObjects/identifier.objValue.js";
-import { LongUrlObjValue } from "@domain/valueObjects/longUrl.objValue.js";
 import { IShortUrlRepository } from "@infrastructure/prisma/shortUrl/contract/shortUrlRepository.interface.js";
-import { FailedGenerateIdentifierError } from "@shared/errors/FailedGenerateIdentifierError.js";
-import { IUpdateShortUrlUseCaseProps } from "./types.js";
 import { ShortUrlNotFoundedError } from "@shared/errors/ShortUrlNotFounded.js";
 import { ICreateLogWhenUpdateUseCaseProps } from "../createLogWhenUpdate/types.js";
+import { IDeleteShortUrlUseCaseProps } from "./types.js";
 import { EActionShortUrlLog } from "@domain/interfaces/shortUrlLog.interface.js";
 
-export class UpdateShortUrlUseCase extends UseCase<
-  IUpdateShortUrlUseCaseProps,
+export class DeleteShortUrlUseCase extends UseCase<
+  IDeleteShortUrlUseCaseProps,
   void
 > {
   constructor(
@@ -23,25 +19,22 @@ export class UpdateShortUrlUseCase extends UseCase<
     super();
   }
 
-  async execute({ shortUrlId, host, userId }: IUpdateShortUrlUseCaseProps) {
+  async execute({ shortUrlId, userId }: IDeleteShortUrlUseCaseProps) {
     const shortUrl = await this.repository.findById(shortUrlId);
 
     if (!shortUrl) {
       throw new ShortUrlNotFoundedError();
     }
 
-    const props = shortUrl.getProps();
-    const oldValue = props.host;
-
-    shortUrl.setHost(host);
-
+    shortUrl.delete();
     await this.repository.update(shortUrl);
+
     await this.createLogWhenUpdateUseCase.execute({
       shortUrlId,
       userId,
-      oldValue,
-      newValue: host,
-      action: EActionShortUrlLog.UPDATE,
+      newValue: shortUrl.getProps().host,
+      oldValue: shortUrl.getProps().host,
+      action: EActionShortUrlLog.DELETE,
     });
 
     return;

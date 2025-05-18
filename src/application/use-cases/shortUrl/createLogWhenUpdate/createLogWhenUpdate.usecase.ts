@@ -4,6 +4,7 @@ import { ShortUrlNotFoundedError } from "@shared/errors/ShortUrlNotFounded.js";
 import { IShortUrlLogsRepository } from "@infrastructure/prisma/shortUrl/contract/shortUrlLogsRepository.interface.js";
 import { ShortUrlLog } from "@domain/entities/ShortUrlLog.entity.js";
 import { IShortUrlRepository } from "@infrastructure/prisma/shortUrl/contract/shortUrlRepository.interface.js";
+import { EActionShortUrlLog } from "@domain/interfaces/shortUrlLog.interface.js";
 
 export class CreateLogWhenUpdateUseCase extends UseCase<
   ICreateLogWhenUpdateUseCaseProps,
@@ -21,8 +22,9 @@ export class CreateLogWhenUpdateUseCase extends UseCase<
     userId,
     newValue,
     oldValue,
+    action = EActionShortUrlLog.UPDATE,
   }: ICreateLogWhenUpdateUseCaseProps) {
-    const shortUrl = await this.shortUrlRepository.findById(shortUrlId);
+    const shortUrl = await this.shortUrlRepository.findById(shortUrlId, true);
 
     if (!shortUrl) {
       throw new ShortUrlNotFoundedError();
@@ -34,6 +36,7 @@ export class CreateLogWhenUpdateUseCase extends UseCase<
       userId,
       newValue,
       oldValue,
+      action,
       shortUrl
     );
 

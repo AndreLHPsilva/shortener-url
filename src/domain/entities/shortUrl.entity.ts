@@ -2,6 +2,7 @@ import { IShortUrl } from "@domain/interfaces/shortUrl.interface.js";
 import { LongUrlObjValue } from "@domain/valueObjects/longUrl.objValue.js";
 import { toSpISOString } from "@shared/utils/date/index.js";
 import { AccessShortUrlLog } from "./accessShortUrlLog.entity.js";
+import { ShortUrlAlreadyDeletedError } from "@shared/errors/ShortUrlAlreadyDeletedError.js";
 
 export class ShortUrl {
   private accessShortUrlLogs: AccessShortUrlLog[] = [];
@@ -72,6 +73,14 @@ export class ShortUrl {
       longUrl.getProps().path,
       longUrl.getProps().protocol
     );
+  }
+
+  delete() {
+    if (this.deletedAt) {
+      throw new ShortUrlAlreadyDeletedError();
+    }
+    
+    this.deletedAt = toSpISOString();
   }
 
   gerenateLinks() {

@@ -12,6 +12,7 @@ export class ShortUrlLogRepository implements IShortUrlLogsRepository {
         updatedAt: shortUrlData.updatedAt,
         oldValue: shortUrlData.oldValue,
         newValue: shortUrlData.newValue,
+        action: shortUrlData.action,
         user: {
           connect: {
             id: shortUrlData.userId,
