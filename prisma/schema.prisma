@@ -1,0 +1,68 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  schemas  = ["shortener"]
+}
+
+model Users {
+  id           String         @id @default(uuid())
+  email        String         @unique
+  name         String
+  password     String
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @default(now())
+  shortUrls    ShortUrls[]
+  ShortUrlLogs ShortUrlLogs[]
+
+  @@map("users")
+  @@schema("shortener")
+}
+
+model ShortUrls {
+  id                 String               @id @default(uuid())
+  host               String
+  protocol           String
+  path               String               @default("/")
+  identifier         String               @unique
+  expiresIn          DateTime?
+  deletedAt          DateTime?
+  user               Users?               @relation(fields: [userId], references: [id])
+  userId             String?
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @default(now())
+  AccessShortUrlLogs AccessShortUrlLogs[]
+  ShortUrlLogs       ShortUrlLogs[]
+
+  @@index([id, identifier])
+  @@map("short_urls")
+  @@schema("shortener")
+}
+
+model AccessShortUrlLogs {
+  id         String    @id @default(uuid())
+  ip         String
+  shortUrl   ShortUrls @relation(fields: [shortUrlId], references: [id])
+  shortUrlId String
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @default(now())
+
+  @@map("access_short_url_logs")
+  @@schema("shortener")
+}
+
+model ShortUrlLogs {
+  id         String    @id @default(uuid())
+  shortUrl   ShortUrls @relation(fields: [shortUrlId], references: [id])
+  shortUrlId String
+  updatedAt  DateTime  @default(now())
+  user       Users     @relation(fields: [userId], references: [id])
+  userId     String
+
+  @@map("short_url_logs")
+  @@schema("shortener")
+}
