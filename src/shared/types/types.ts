@@ -15,8 +15,13 @@ export type TypeFastifyInstance = FastifyInstance<
   ZodTypeProvider
 >;
 
-
 export interface IUserJwt {
   id: string;
   email: string;
+}
+
+export interface ILinks {
+  rel: string;
+  method: string;
+  href: string;
 }

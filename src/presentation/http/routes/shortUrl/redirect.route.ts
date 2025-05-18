@@ -6,7 +6,6 @@ export async function redirectShortUrlRoute(app: TypeFastifyInstance) {
   app.get(
     "/:identifierShortUrl",
     {
-      onRequest: [app.optionalAuthenticate],
       schema: {
         description: "Redirects to the original URL based on the short URL",
         tags: ["short-url"],

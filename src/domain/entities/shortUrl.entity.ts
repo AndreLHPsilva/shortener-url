@@ -1,8 +1,11 @@
 import { IShortUrl } from "@domain/interfaces/shortUrl.interface.js";
 import { LongUrlObjValue } from "@domain/valueObjects/longUrl.objValue.js";
 import { toSpISOString } from "@shared/utils/date/index.js";
+import { AccessShortUrlLog } from "./accessShortUrlLog.entity.js";
 
 export class ShortUrl {
+  private accessShortUrlLogs: AccessShortUrlLog[] = [];
+  private routePath = "/short-urls";
   constructor(
     private id: string | null = null,
     private host: string,
@@ -13,12 +16,15 @@ export class ShortUrl {
     private updatedAt: string,
     private identifier: string,
     private path: string = "/",
-    private protocol: string
+    private protocol: string,
+    accessShortUrlLog: AccessShortUrlLog[] = []
   ) {
     this.expiresIn = expiresIn ? toSpISOString(new Date(expiresIn)) : null;
+    this.setAccessShortUrlLogs(accessShortUrlLog);
   }
 
   static transformFromInternalClass(shortUrl: IShortUrl): ShortUrl {
+    console.log(shortUrl);
     const deletedAt = shortUrl.deletedAt
       ? toSpISOString(shortUrl.deletedAt)
       : null;
@@ -26,6 +32,11 @@ export class ShortUrl {
     const expiresIn = shortUrl.expiresIn
       ? toSpISOString(shortUrl.expiresIn)
       : null;
+
+    const accessShortUrlLogs =
+      shortUrl.AccessShortUrlLogs?.map((accessShortUrlLog) =>
+        AccessShortUrlLog.transformFromInternalClass(accessShortUrlLog)
+      ) ?? [];
 
     return new ShortUrl(
       shortUrl.id,
@@ -37,7 +48,8 @@ export class ShortUrl {
       toSpISOString(shortUrl.updatedAt),
       shortUrl.identifier,
       shortUrl.path,
-      shortUrl.protocol
+      shortUrl.protocol,
+      accessShortUrlLogs
     );
   }
   static create(
@@ -63,11 +75,38 @@ export class ShortUrl {
     );
   }
 
+  gerenateLinks() {
+    return {
+      links: [
+        {
+          rel: "update",
+          method: "PUT",
+          href: `${this.routePath}/${this.id}`,
+        },
+        {
+          rel: "delete",
+          method: "DELETE",
+          href: `${this.routePath}/${this.id}`,
+        },
+      ],
+    };
+  }
+
+  setAccessShortUrlLogs(accessShortUrlLogs: AccessShortUrlLog[]) {
+    this.accessShortUrlLogs = accessShortUrlLogs;
+  }
+
   getUrl() {
     return `${this.protocol}//${this.host}${this.path}`;
   }
 
+  getShortUrl() {
+    return `${process.env.BASE_URL}/${this.identifier}`;
+  }
+
   getProps() {
+    const sumAccess = this.accessShortUrlLogs.length;
+
     return {
       id: this.id,
       host: this.host,
@@ -79,6 +118,7 @@ export class ShortUrl {
       identifier: this.identifier,
       path: this.path,
       protocol: this.protocol,
+      sumAccess,
     };
   }
 }

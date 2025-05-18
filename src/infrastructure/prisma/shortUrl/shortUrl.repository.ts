@@ -57,17 +57,23 @@ export class ShortUrlRepository implements IShortUrlRepository {
     return ShortUrl.transformFromInternalClass(shortUrl as IShortUrl);
   }
 
-  async findByUserId(userId: string): Promise<ShortUrl | null> {
-    const shortUrl = await this.repository.findFirst({
+  async findByUserId(
+    userId: string,
+    includeAccessShortUrlLog = false
+  ): Promise<ShortUrl[]> {
+    const shortUrls = await this.repository.findMany({
       where: {
         userId,
       },
+      include: {
+        ...(includeAccessShortUrlLog && { AccessShortUrlLogs: true }),
+      },
     });
 
-    if (!shortUrl) {
-      return null;
-    }
+    const shortUrlsFormatted = shortUrls.map((shortUrl) => {
+      return ShortUrl.transformFromInternalClass(shortUrl as IShortUrl);
+    });
 
-    return ShortUrl.transformFromInternalClass(shortUrl as IShortUrl);
+    return shortUrlsFormatted;
   }
 }

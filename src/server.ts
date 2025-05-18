@@ -19,6 +19,7 @@ import authPlugin from "@shared/plugins/auth.plugin.js";
 import optionalAuthPlugin from "@shared/plugins/optionalAuth.plugin.js";
 import { shortUrlRoutes } from "@presentation/http/routes/shortUrl/index.route.js";
 import { userRoutes } from "@presentation/http/routes/user/index.js";
+import { redirectShortUrlRoute } from "@presentation/http/routes/shortUrl/redirect.route.js";
 
 dotenv.config();
 
@@ -92,6 +93,7 @@ app.setErrorHandler((error, request, reply) => {
 app.register(authRoutes, { prefix: "/auth" });
 app.register(userRoutes, { prefix: "/users" });
 app.register(shortUrlRoutes, { prefix: "/short-urls" });
+app.register(redirectShortUrlRoute);
 
 app.register(fastifyJwt, {
   secret: process.env.JWT_SECRET!,
