@@ -8,6 +8,8 @@ export class ShortUrlLog {
     private shortUrlId: string,
     private userId: string,
     private updatedAt: string,
+    private newValue: string,
+    private oldValue: string,
     private shortUrl: ShortUrl | null
   ) {}
 
@@ -15,10 +17,20 @@ export class ShortUrlLog {
     id: string | null,
     shortUrlId: string,
     userId: string,
+    newValue: string,
+    oldValue: string,
     shortUrl: ShortUrl
   ) {
     const date = toSpISOString();
-    return new ShortUrlLog(id, shortUrlId, userId, date, shortUrl);
+    return new ShortUrlLog(
+      id,
+      shortUrlId,
+      userId,
+      date,
+      newValue,
+      oldValue,
+      shortUrl
+    );
   }
 
   static transformFromInternalClass(accessShortUrlLog: IShortUrlLog) {
@@ -31,14 +43,27 @@ export class ShortUrlLog {
       accessShortUrlLog.shortUrlId,
       accessShortUrlLog.userId,
       toSpISOString(accessShortUrlLog.updatedAt),
+      accessShortUrlLog.newValue,
+      accessShortUrlLog.oldValue,
       shortUrl
     );
   }
+
+  setNewValue(newValue: string) {
+    this.newValue = newValue;
+  }
+
+  setOldValue(oldValue: string) {
+    this.oldValue = oldValue;
+  }
+
   getProps() {
     return {
       id: this.id,
       shortUrlId: this.shortUrlId,
       userId: this.userId,
+      newValue: this.newValue,
+      oldValue: this.oldValue,
       shortUrl: this.shortUrl,
       updatedAt: this.updatedAt,
     };

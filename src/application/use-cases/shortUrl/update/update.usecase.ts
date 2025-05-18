@@ -29,13 +29,17 @@ export class UpdateShortUrlUseCase extends UseCase<
       throw new ShortUrlNotFoundedError();
     }
 
+    const props = shortUrl.getProps();
+    const oldValue = props.host;
+
     shortUrl.setHost(host);
 
     await this.repository.update(shortUrl);
-    
     await this.createLogWhenUpdateUseCase.execute({
       shortUrlId,
       userId,
+      oldValue,
+      newValue: host,
     });
 
     return;

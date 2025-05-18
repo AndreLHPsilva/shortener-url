@@ -16,14 +16,27 @@ export class CreateLogWhenUpdateUseCase extends UseCase<
     super();
   }
 
-  async execute({ shortUrlId, userId }: ICreateLogWhenUpdateUseCaseProps) {
+  async execute({
+    shortUrlId,
+    userId,
+    newValue,
+    oldValue,
+  }: ICreateLogWhenUpdateUseCaseProps) {
     const shortUrl = await this.shortUrlRepository.findById(shortUrlId);
 
     if (!shortUrl) {
       throw new ShortUrlNotFoundedError();
     }
 
-    const shortUrlLog = ShortUrlLog.create(null, shortUrlId, userId, shortUrl);
+    const shortUrlLog = ShortUrlLog.create(
+      null,
+      shortUrlId,
+      userId,
+      newValue,
+      oldValue,
+      shortUrl
+    );
+
     await this.repository.create(shortUrlLog);
 
     return;

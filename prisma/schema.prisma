@@ -57,6 +57,8 @@ model AccessShortUrlLogs {
 
 model ShortUrlLogs {
   id         String    @id @default(uuid())
+  oldValue   String
+  newValue   String
   shortUrl   ShortUrls @relation(fields: [shortUrlId], references: [id])
   shortUrlId String
   updatedAt  DateTime  @default(now())

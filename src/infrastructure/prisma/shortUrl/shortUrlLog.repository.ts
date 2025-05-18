@@ -10,6 +10,8 @@ export class ShortUrlLogRepository implements IShortUrlLogsRepository {
     await this.repository.create({
       data: {
         updatedAt: shortUrlData.updatedAt,
+        oldValue: shortUrlData.oldValue,
+        newValue: shortUrlData.newValue,
         user: {
           connect: {
             id: shortUrlData.userId,
