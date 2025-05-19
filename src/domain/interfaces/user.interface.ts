@@ -5,6 +5,7 @@ export interface IUser {
   id: string;
   email: string;
   name: string;
+  password: string;
   updatedAt: Date;
   createdAt: Date;
   ShortUrls?: IShortUrl[];

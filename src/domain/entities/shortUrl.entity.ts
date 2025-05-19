@@ -1,8 +1,9 @@
 import { IShortUrl } from "@domain/interfaces/shortUrl.interface.js";
-import { LongUrlObjValue } from "@domain/valueObjects/longUrl.objValue.js";
+import { LongUrlObjValue } from "@domain/objectValues/longUrl.objValue.js";
 import { toSpISOString } from "@shared/utils/date/index.js";
 import { AccessShortUrlLog } from "./accessShortUrlLog.entity.js";
 import { ShortUrlAlreadyDeletedError } from "@shared/errors/ShortUrlAlreadyDeletedError.js";
+import { IdentifierObjValue } from "@domain/objectValues/identifier.objValue.js";
 
 export class ShortUrl {
   private accessShortUrlLogs: AccessShortUrlLog[] = [];
@@ -15,7 +16,7 @@ export class ShortUrl {
     private userId: string | null = null,
     private createdAt: string,
     private updatedAt: string,
-    private identifier: string,
+    private identifier: IdentifierObjValue,
     private path: string = "/",
     private protocol: string,
     accessShortUrlLog: AccessShortUrlLog[] = []
@@ -38,6 +39,8 @@ export class ShortUrl {
         AccessShortUrlLog.transformFromInternalClass(accessShortUrlLog)
       ) ?? [];
 
+    const identifier = new IdentifierObjValue(shortUrl.identifier);
+
     return new ShortUrl(
       shortUrl.id,
       shortUrl.host,
@@ -46,7 +49,7 @@ export class ShortUrl {
       shortUrl.userId,
       toSpISOString(shortUrl.createdAt),
       toSpISOString(shortUrl.updatedAt),
-      shortUrl.identifier,
+      identifier,
       shortUrl.path,
       shortUrl.protocol,
       accessShortUrlLogs
@@ -57,7 +60,7 @@ export class ShortUrl {
     longUrl: LongUrlObjValue,
     expiresIn: string | null,
     userId: string | null,
-    identifier: string
+    identifier: IdentifierObjValue
   ) {
     const date = toSpISOString();
 
@@ -75,11 +78,14 @@ export class ShortUrl {
     );
   }
 
+  getRoutePath() {
+    return this.routePath;
+  }
   delete() {
     if (this.deletedAt) {
       throw new ShortUrlAlreadyDeletedError();
     }
-    
+
     this.deletedAt = toSpISOString();
   }
 
@@ -113,7 +119,7 @@ export class ShortUrl {
   }
 
   getShortUrl() {
-    return `${process.env.BASE_URL}/${this.identifier}`;
+    return `${process.env.BASE_URL}/${this.identifier.getValue()}`;
   }
 
   getProps() {

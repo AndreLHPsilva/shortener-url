@@ -1,3 +1,4 @@
+import { IUser } from "@domain/interfaces/user.interface.js";
 import { toSpISOString } from "@shared/utils/date/index.js";
 
 export class User {
@@ -19,6 +20,17 @@ export class User {
     private createdAt: string,
     private updatedAt: string
   ) {}
+
+  static transformFromInternalClass(user: IUser) {
+    return new User(
+      user.id,
+      user.name,
+      user.email,
+      user.password,
+      toSpISOString(new Date(user.createdAt)),
+      toSpISOString(new Date(user.updatedAt))
+    );
+  }
 
   getProps() {
     return {

@@ -4,8 +4,8 @@ import {
 } from "./types.js";
 import { UseCase } from "@application/use-cases/contract/useCase.js";
 import { ShortUrl } from "@domain/entities/shortUrl.entity.js";
-import { IdentifierObjValue } from "@domain/valueObjects/identifier.objValue.js";
-import { LongUrlObjValue } from "@domain/valueObjects/longUrl.objValue.js";
+import { IdentifierObjValue } from "@domain/objectValues/identifier.objValue.js";
+import { LongUrlObjValue } from "@domain/objectValues/longUrl.objValue.js";
 import { IShortUrlRepository } from "@infrastructure/prisma/shortUrl/contract/shortUrlRepository.interface.js";
 import { FailedGenerateIdentifierError } from "@shared/errors/FailedGenerateIdentifierError.js";
 
@@ -25,7 +25,7 @@ export class CreateShortUrlUseCase extends UseCase<
     const longUrlClass = LongUrlObjValue.create(longUrl);
 
     const startGeneration = Date.now();
-    let identifier: string | null = null;
+    let identifier: IdentifierObjValue | null = null;
 
     for (
       let attempt = 0;
@@ -40,9 +40,9 @@ export class CreateShortUrlUseCase extends UseCase<
         throw new FailedGenerateIdentifierError();
       }
 
-      identifier = IdentifierObjValue.generateCode();
+      identifier = IdentifierObjValue.create();
       const verifyAlreadyExists = await this.repository.findByIdentifier(
-        identifier
+        identifier.getValue()
       );
 
       if (verifyAlreadyExists) {

@@ -6,5 +6,5 @@ export interface IAccessShortUrlLog {
   shortUrlId: string;
   createdAt: Date;
   updatedAt: Date;
-  shortUrl?: IShortUrl;
+  ShortUrl?: IShortUrl | null;
 }

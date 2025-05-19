@@ -9,7 +9,7 @@ export class AccessShortUrlLog {
     private createdAt: string,
     private updatedAt: string,
     private shortUrlId: string,
-    private shortUrl: ShortUrl | null
+    private ShortUrl: ShortUrl | null
   ) {}
 
   static create(id: string | null, ip: string, shortUrl: ShortUrl) {
@@ -25,8 +25,8 @@ export class AccessShortUrlLog {
   }
 
   static transformFromInternalClass(accessShortUrlLog: IAccessShortUrlLog) {
-    const shortUrl = accessShortUrlLog.shortUrl
-      ? ShortUrl.transformFromInternalClass(accessShortUrlLog.shortUrl)
+    const shortUrl = accessShortUrlLog.ShortUrl
+      ? ShortUrl.transformFromInternalClass(accessShortUrlLog.ShortUrl)
       : null;
 
     return new AccessShortUrlLog(
@@ -43,7 +43,7 @@ export class AccessShortUrlLog {
       id: this.id,
       ip: this.ip,
       shortUrlId: this.shortUrlId,
-      shortUrl: this.shortUrl,
+      shortUrl: this.ShortUrl,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
     };

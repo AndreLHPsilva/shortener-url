@@ -32,14 +32,7 @@ export class UserRepository implements IUserRepository {
       return null;
     }
 
-    return new User(
-      user.id,
-      user.name,
-      user.email,
-      user.password,
-      toSpISOString(new Date(user.createdAt)),
-      toSpISOString(new Date(user.updatedAt))
-    );
+    return User.transformFromInternalClass(user);
   }
 
   async findById(id: string): Promise<User | null> {
@@ -53,13 +46,6 @@ export class UserRepository implements IUserRepository {
       return null;
     }
 
-    return new User(
-      user.id,
-      user.name,
-      user.email,
-      user.password,
-      toSpISOString(new Date(user.createdAt)),
-      toSpISOString(new Date(user.updatedAt))
-    );
+    return User.transformFromInternalClass(user);
   }
 }

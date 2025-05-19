@@ -25,9 +25,10 @@
       "@application/*": ["src/application/*"],
       "@domain/*": ["src/domain/*"],
       "@infrastructure/*": ["src/infrastructure/*"],
-      "@shared/*": ["src/shared/*"],
+      "@lib/*": ["src/lib/*"],
       "@presentation/*": ["src/presentation/*"],
-      "@lib/*": ["src/lib/*"]
+      "@shared/*": ["src/shared/*"],
+      "@tests/*": ["src/tests/*"]
     },
     "types": ["node", "./src/shared/types/fastify"]
   },

@@ -1,4 +1,3 @@
-import { toSpISOString } from "@shared/utils/date/index.js";
 import { prisma } from "../prisma.js";
 import { IShortUrlRepository } from "./contract/shortUrlRepository.interface.js";
 import { ShortUrl } from "@domain/entities/shortUrl.entity.js";
@@ -14,7 +13,7 @@ export class ShortUrlRepository implements IShortUrlRepository {
         host: shortUrlData.host,
         path: shortUrlData.path,
         expiresIn: shortUrlData.expiresIn,
-        identifier: shortUrlData.identifier,
+        identifier: shortUrlData.identifier.getValue(),
         protocol: shortUrlData.protocol,
         ...(shortUrlData.userId && {
           user: {
@@ -91,7 +90,7 @@ export class ShortUrlRepository implements IShortUrlRepository {
         path: shortUrlData.path,
         expiresIn: shortUrlData.expiresIn,
         deletedAt: shortUrlData.deletedAt,
-        identifier: shortUrlData.identifier,
+        identifier: shortUrlData.identifier.getValue(),
         protocol: shortUrlData.protocol,
         ...(shortUrlData.userId && {
           user: {
