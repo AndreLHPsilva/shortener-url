@@ -7,6 +7,8 @@ import {
   IRedirectShortUrlResponse,
   IRedirectShortUrlUseCaseProps,
 } from "@application/use-cases/shortUrl/redirect/types";
+import { setAttributeActiveSpan } from "@lib/tracing";
+import { ETelemetrySpanNames } from "@lib/tracing/types";
 
 export class RedirectShortUrlController {
   constructor(
@@ -16,15 +18,21 @@ export class RedirectShortUrlController {
     >
   ) {}
   async handle(request: FastifyRequest, reply: FastifyReply) {
-    const dataValidated = ZodValidatorError.parse(
+    const { identifierShortUrl } = ZodValidatorError.parse(
       RedirectShortUrlValidator,
       request.params
     );
 
-    const { shortUrl } = await this.redirectShortUrlUseCase.execute({
-      identifierShortUrl: dataValidated.identifierShortUrl,
+    setAttributeActiveSpan(ETelemetrySpanNames.PAYLOAD_CONTROLLER, {
+      identifierShortUrl,
       ip: request.ip,
     });
+
+    const { shortUrl } = await this.redirectShortUrlUseCase.execute({
+      identifierShortUrl,
+      ip: request.ip,
+    });
+
     const urlMonted = shortUrl.getUrl();
 
     return HttpResponse.redirectContent(urlMonted, reply);

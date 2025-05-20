@@ -6,6 +6,8 @@ import {
   IListShortUrlResponse,
   IListShortUrlUseCaseProps,
 } from "@application/use-cases/shortUrl/list/types";
+import { setAttributeActiveSpan } from "@lib/tracing";
+import { ETelemetrySpanNames } from "@lib/tracing/types";
 
 export class ListShortUrlController {
   constructor(
@@ -16,6 +18,10 @@ export class ListShortUrlController {
   ) {}
   async handle(request: FastifyRequest, reply: FastifyReply) {
     const user = request?.user as IUserJwt;
+
+    setAttributeActiveSpan(ETelemetrySpanNames.PAYLOAD_CONTROLLER, {
+      user,
+    });
 
     const resp = await this.listShortUrlUseCase.execute({ userId: user.id });
 

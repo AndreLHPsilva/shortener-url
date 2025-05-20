@@ -4,6 +4,8 @@ import { UserAlreadyExistsError } from "@shared/errors/UserAlreadyExistsError";
 import { UseCase } from "@application/use-cases/contract/useCase";
 import { hash } from "bcryptjs";
 import { IUserRepository } from "@infrastructure/prisma/user/contract/userRepository.interface";
+import { setAttributeActiveSpan } from "@lib/tracing";
+import { ETelemetrySpanNames } from "@lib/tracing/types";
 
 export class CreateUserUseCase extends UseCase<ICreateUserUseCaseProps, void> {
   constructor(private repository: IUserRepository) {
@@ -22,6 +24,11 @@ export class CreateUserUseCase extends UseCase<ICreateUserUseCaseProps, void> {
     await this.repository.create(
       User.create(null, data.name, data.email, passordHashed)
     );
+
+    setAttributeActiveSpan(ETelemetrySpanNames.PAYLOAD_USE_CASE, {
+      name: data.name,
+      email: data.email,
+    });
 
     return;
   }

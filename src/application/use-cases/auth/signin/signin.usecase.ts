@@ -4,6 +4,8 @@ import { compare } from "bcryptjs";
 import { EmailOrPasswordIncorrectError } from "@shared/errors/EmailOrPasswordIncorrectError";
 import { IUserRepository } from "@infrastructure/prisma/user/contract/userRepository.interface";
 import { app } from "src/app";
+import { setAttributeActiveSpan } from "@lib/tracing";
+import { ETelemetrySpanNames } from "@lib/tracing/types";
 
 export class SigninUseCase extends UseCase<
   ISigninUseCaseProps,
@@ -37,8 +39,12 @@ export class SigninUseCase extends UseCase<
       email: verifyUserExists.getProps().email,
     });
 
-    return {
+    const response = {
       token,
     };
+
+    setAttributeActiveSpan(ETelemetrySpanNames.RESPONSE_USE_CASE, response);
+
+    return response;
   }
 }

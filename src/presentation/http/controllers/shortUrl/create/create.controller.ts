@@ -8,6 +8,8 @@ import {
   ICreateShortUrlUseCaseProps,
 } from "@application/use-cases/shortUrl/create/types";
 import { IUserJwt } from "@shared/types/types";
+import { setAttributeActiveSpan } from "@lib/tracing";
+import { ETelemetrySpanNames } from "@lib/tracing/types";
 
 export class CreateShortUrlController {
   constructor(
@@ -24,6 +26,11 @@ export class CreateShortUrlController {
 
     const user = request?.user as IUserJwt;
     const userId = user ? user.id : null;
+
+    setAttributeActiveSpan(ETelemetrySpanNames.PAYLOAD_CONTROLLER, {
+      user,
+      dataValidated,
+    });
 
     const resp = await this.createShortUrlUseCase.execute({
       ...dataValidated,

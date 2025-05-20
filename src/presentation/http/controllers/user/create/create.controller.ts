@@ -4,6 +4,8 @@ import { HttpResponse } from "@shared/http/HttpResponse";
 import { CreateUserValidator } from "./types";
 import { UseCase } from "@application/use-cases/contract/useCase";
 import { ICreateUserUseCaseProps } from "@application/use-cases/user/create/types";
+import { setAttributeActiveSpan } from "@lib/tracing";
+import { ETelemetrySpanNames } from "@lib/tracing/types";
 
 export class CreateUserController {
   constructor(
@@ -14,6 +16,11 @@ export class CreateUserController {
       CreateUserValidator,
       request.body
     );
+
+    setAttributeActiveSpan(ETelemetrySpanNames.PAYLOAD_CONTROLLER, {
+      email: data.email,
+      name: data.name,
+    });
 
     await this.createUserUseCase.execute(data);
 

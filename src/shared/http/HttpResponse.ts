@@ -1,8 +1,10 @@
 import { FastifyReply } from "fastify";
 import { INTERNAL_ERRORS_CODE } from "../errors";
+import { setAttributeActiveSpan } from "@lib/tracing";
 
 export class HttpResponse {
   static success<T>(data: T, reply: FastifyReply, status = 200) {
+    setAttributeActiveSpan("http.success_http_response", data);
     return reply.status(status).send(data);
   }
 
@@ -15,13 +17,15 @@ export class HttpResponse {
   }
 
   static redirectContent(url: string, reply: FastifyReply, status = 302) {
+    setAttributeActiveSpan("http.redirect_content_response", { url, status });
+
     return reply.redirect(url, status);
   }
 
   static error(
     message: string,
     reply: FastifyReply,
-    code = "INTERNAL_ERROR",
+    code = INTERNAL_ERRORS_CODE.INTERNAL_ERROR,
     status = 500
   ) {
     return reply.status(status).send({

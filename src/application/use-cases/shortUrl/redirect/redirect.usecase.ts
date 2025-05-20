@@ -8,6 +8,8 @@ import { ShortUrlNotFoundedError } from "@shared/errors/ShortUrlNotFounded";
 import { IContabilizeAccessToUrlUseCaseProps } from "../contabilizeAccessToUrl/types";
 import { toSpISOString } from "@shared/utils/date";
 import { ShortUrlExpired } from "@shared/errors/ShortUrlExpired";
+import { setAttributeActiveSpan } from "@lib/tracing";
+import { ETelemetrySpanNames } from "@lib/tracing/types";
 
 export class RedirectShortUrlUseCase extends UseCase<
   IRedirectShortUrlUseCaseProps,
@@ -44,8 +46,12 @@ export class RedirectShortUrlUseCase extends UseCase<
       ip,
     });
 
-    return {
+    const response = {
       shortUrl,
     };
+
+    setAttributeActiveSpan(ETelemetrySpanNames.RESPONSE_USE_CASE, response);
+
+    return response;
   }
 }

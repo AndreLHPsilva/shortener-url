@@ -4,6 +4,8 @@ import { UseCase } from "@application/use-cases/contract/useCase";
 import { IAccessShortUrlLogsRepository } from "@infrastructure/prisma/shortUrl/contract/accessShortUrlLogsRepository.interface";
 import { IShortUrlRepository } from "@infrastructure/prisma/shortUrl/contract/shortUrlRepository.interface";
 import { ShortUrlNotFoundedError } from "@shared/errors/ShortUrlNotFounded";
+import { setAttributeActiveSpan } from "@lib/tracing";
+import { ETelemetrySpanNames } from "@lib/tracing/types";
 
 export class ContabilizeAccessToUrlUseCase extends UseCase<
   IContabilizeAccessToUrlUseCaseProps,
@@ -25,6 +27,10 @@ export class ContabilizeAccessToUrlUseCase extends UseCase<
 
     const accessShortUrlLog = AccessShortUrlLog.create(null, ip, shortUrl);
     await this.repository.create(accessShortUrlLog);
+
+    setAttributeActiveSpan(ETelemetrySpanNames.PAYLOAD_USE_CASE, {
+      accessShortUrlLog: accessShortUrlLog.getProps(),
+    });
 
     return;
   }

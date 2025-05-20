@@ -5,6 +5,8 @@ import { IShortUrlLogsRepository } from "@infrastructure/prisma/shortUrl/contrac
 import { ShortUrlLog } from "@domain/entities/shortUrlLog.entity";
 import { IShortUrlRepository } from "@infrastructure/prisma/shortUrl/contract/shortUrlRepository.interface";
 import { EActionShortUrlLog } from "@domain/interfaces/shortUrlLog.interface";
+import { setAttributeActiveSpan } from "@lib/tracing";
+import { ETelemetrySpanNames } from "@lib/tracing/types";
 
 export class CreateLogWhenUpdateUseCase extends UseCase<
   ICreateLogWhenUpdateUseCaseProps,
@@ -41,6 +43,10 @@ export class CreateLogWhenUpdateUseCase extends UseCase<
     );
 
     await this.repository.create(shortUrlLog);
+
+    setAttributeActiveSpan(ETelemetrySpanNames.PAYLOAD_USE_CASE, {
+      shortUrl: shortUrlLog.getProps(),
+    });
 
     return;
   }

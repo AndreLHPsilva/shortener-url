@@ -1,9 +1,9 @@
 import { diag, DiagConsoleLogger, DiagLogLevel } from "@opentelemetry/api";
 import { NodeSDK } from "@opentelemetry/sdk-node";
 import { getNodeAutoInstrumentations } from "@opentelemetry/auto-instrumentations-node";
-import { PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
 import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-grpc";
-import { OTLPMetricExporter } from "@opentelemetry/exporter-metrics-otlp-grpc";
+import { trace, context } from "@opentelemetry/api";
+import { PrismaInstrumentation } from "@prisma/instrumentation";
 
 diag.setLogger(new DiagConsoleLogger(), DiagLogLevel.ERROR);
 
@@ -13,14 +13,26 @@ const sdk = new NodeSDK({
     url: `${process.env.OTEL_EXPORTER_OTLP_ENDPOINT}/v1/traces`,
     headers: {},
   }),
-  metricReader: new PeriodicExportingMetricReader({
-    exporter: new OTLPMetricExporter({
-      url: `${process.env.OTEL_EXPORTER_OTLP_ENDPOINT}/v1/metrics`,
-      headers: {},
+  instrumentations: [
+    getNodeAutoInstrumentations(),
+    new PrismaInstrumentation({
+      ignoreSpanTypes: [
+        "prisma:client:serialize",
+        "prisma:client:connect",
+        "prisma:engine:connect",
+        "prisma:engine:connection",
+        "prisma:engine:response_json_serialization",
+        "prisma:engine:serialize",
+      ],
     }),
-  }),
-  instrumentations: [getNodeAutoInstrumentations()],
+  ],
 });
+
+export function setAttributeActiveSpan(name: string, payload: any) {
+  const span = trace.getSpan(context.active());
+
+  span?.setAttribute(name, JSON.stringify(payload));
+}
 
 process.on("beforeExit", async () => {
   await sdk.shutdown();

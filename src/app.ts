@@ -10,21 +10,18 @@ import fastifySwagger from "@fastify/swagger";
 import fastifySwaggerUi from "@fastify/swagger-ui";
 import { authRoutes } from "./presentation/http/routes/auth/index.route";
 import { fastify } from "fastify";
-import { ZodError } from "zod";
-import { ZodValidatorError } from "./shared/utils/zod/validator";
-import { HttpResponse } from "./shared/http/HttpResponse";
-import { AppError } from "@shared/errors/AppError";
 import fastifyJwt from "@fastify/jwt";
 import authPlugin from "@shared/plugins/auth.plugin";
 import optionalAuthPlugin from "@shared/plugins/optionalAuth.plugin";
 import { shortUrlRoutes } from "@presentation/http/routes/shortUrl/index.route";
 import { userRoutes } from "@presentation/http/routes/user/index";
 import { redirectShortUrlRoute } from "@presentation/http/routes/shortUrl/redirect.route";
+import { setupErrorHandler } from "@shared/errorHandler";
 
 dotenv.config();
 
 export const app = fastify({
-  logger: true,
+  logger: false,
 }).withTypeProvider<ZodTypeProvider>();
 
 app.setValidatorCompiler(validatorCompiler);
@@ -59,36 +56,7 @@ app.register(fastifySwaggerUi, {
   routePrefix: "/docs",
 });
 
-app.setErrorHandler((error, request, reply) => {
-  if (error.validation && error.code === "FST_ERR_VALIDATION") {
-    const formatted = error.validation.map((v: any) => {
-      return `${v.message}`;
-    });
-
-    const message = formatted.join("\n");
-    return HttpResponse.badRequest(message, reply);
-  }
-
-  if (error instanceof AppError) {
-    return HttpResponse.error(
-      error.message,
-      reply,
-      error.code,
-      error.statusCode
-    );
-  }
-
-  if (error instanceof ZodError) {
-    const message = ZodValidatorError.formatMessage(error);
-    return HttpResponse.badRequest(message, reply);
-  }
-
-  if (error instanceof ZodValidatorError) {
-    return HttpResponse.badRequest(error.message, reply);
-  }
-
-  HttpResponse.internalError(error.message || "Internal server error", reply);
-});
+setupErrorHandler();
 
 app.get("/health-check", async (request, reply) => {
   return { status: "ok" };

@@ -4,6 +4,8 @@ import { ShortUrl } from "@domain/entities/shortUrl.entity";
 import { IdentifierObjValue } from "@domain/objectValues/identifier.objValue";
 import { LongUrlObjValue } from "@domain/objectValues/longUrl.objValue";
 import { IShortUrlRepository } from "@infrastructure/prisma/shortUrl/contract/shortUrlRepository.interface";
+import { setAttributeActiveSpan } from "@lib/tracing";
+import { ETelemetrySpanNames } from "@lib/tracing/types";
 import { FailedGenerateIdentifierError } from "@shared/errors/FailedGenerateIdentifierError";
 
 export class CreateShortUrlUseCase extends UseCase<
@@ -62,10 +64,14 @@ export class CreateShortUrlUseCase extends UseCase<
 
     await this.repository.create(shortUrl);
 
-    return {
+    const response = {
       shortUrl: `${process.env.BASE_URL}/${shortUrl
         .getProps()
         .identifier.getValue()}`,
     };
+
+    setAttributeActiveSpan(ETelemetrySpanNames.RESPONSE_USE_CASE, response);
+
+    return response;
   }
 }

@@ -7,6 +7,8 @@ import {
   ISigninResponseUseCase,
   ISigninUseCaseProps,
 } from "@application/use-cases/auth/signin/types";
+import { setAttributeActiveSpan } from "@lib/tracing";
+import { ETelemetrySpanNames } from "@lib/tracing/types";
 
 export class SigninController {
   constructor(
@@ -17,6 +19,10 @@ export class SigninController {
       SigninValidator,
       request.body
     );
+
+    setAttributeActiveSpan(ETelemetrySpanNames.PAYLOAD_CONTROLLER, {
+      email: dataValidated.email,
+    });
 
     const data = await this.signInUseCase.execute(dataValidated);
 

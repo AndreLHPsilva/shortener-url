@@ -5,6 +5,8 @@ import { UseCase } from "@application/use-cases/contract/useCase";
 import { IUserJwt } from "@shared/types/types";
 import { IUpdateShortUrlUseCaseProps } from "@application/use-cases/shortUrl/update/types";
 import { UpdateShortUrlValidator } from "./types";
+import { setAttributeActiveSpan } from "@lib/tracing";
+import { ETelemetrySpanNames } from "@lib/tracing/types";
 
 export class UpdateShortUrlController {
   constructor(
@@ -26,6 +28,11 @@ export class UpdateShortUrlController {
     );
 
     const user = request?.user as IUserJwt;
+
+    setAttributeActiveSpan(ETelemetrySpanNames.PAYLOAD_CONTROLLER, {
+      dataValidated,
+      user,
+    });
 
     await this.updateShortUrlUseCase.execute({
       ...dataValidated,

@@ -5,6 +5,8 @@ import {
   IListShortUrlResponse,
   IListShortUrlUseCaseProps,
 } from "./types";
+import { setAttributeActiveSpan } from "@lib/tracing";
+import { ETelemetrySpanNames } from "@lib/tracing/types";
 
 export class ListShortUrlUseCase extends UseCase<
   IListShortUrlUseCaseProps,
@@ -32,8 +34,12 @@ export class ListShortUrlUseCase extends UseCase<
       };
     });
 
-    return {
+    const response = {
       shortUrls: transformedDatas,
     };
+
+    setAttributeActiveSpan(ETelemetrySpanNames.RESPONSE_USE_CASE, response);
+
+    return response;
   }
 }
