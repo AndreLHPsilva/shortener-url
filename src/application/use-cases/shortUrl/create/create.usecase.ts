@@ -64,9 +64,11 @@ export class CreateShortUrlUseCase extends UseCase<
     );
 
     await this.repository.create(shortUrl);
-
+    
     return {
-      shortUrl: `${process.env.BASE_URL}/${shortUrl.getProps().identifier}`,
+      shortUrl: `${process.env.BASE_URL}/${shortUrl
+        .getProps()
+        .identifier.getValue()}`,
     };
   }
 }

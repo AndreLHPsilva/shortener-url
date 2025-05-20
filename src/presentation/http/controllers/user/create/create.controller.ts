@@ -10,12 +10,12 @@ export class CreateUserController {
     private createUserUseCase: UseCase<ICreateUserUseCaseProps, void>
   ) {}
   async handle(request: FastifyRequest, reply: FastifyReply) {
-    const dataValidated = ZodValidatorError.parse(
+    const {confirmPassword, ...data} = ZodValidatorError.parse(
       CreateUserValidator,
       request.body
     );
 
-    await this.createUserUseCase.execute(dataValidated);
+    await this.createUserUseCase.execute(data);
 
     return HttpResponse.created(null, reply);
   }

@@ -1,5 +1,5 @@
-import { UserRepository } from "@infrastructure/prisma/user/user.repository.js";
-import { SigninUseCase } from "./signin.usecase.js";
+import { SigninUseCase } from "./signin.usecase";
+import { userRepositoryFactory } from "@infrastructure/factory/userRepository.factory";
 
-const userRepository = new UserRepository();
+const userRepository = userRepositoryFactory();
 export const signinUseCase = new SigninUseCase(userRepository);

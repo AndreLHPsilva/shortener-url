@@ -1,5 +1,7 @@
-import { ShortUrlRepository } from "@infrastructure/prisma/shortUrl/shortUrl.repository.js";
 import { CreateShortUrlUseCase } from "./create.usecase.js";
+import { shortUrlRepositoryFactory } from "@infrastructure/factory/shortUrlRepository.factory.js";
 
-const shortUrlRepository = new ShortUrlRepository();
-export const createShortUrlUseCase = new CreateShortUrlUseCase(shortUrlRepository);
+const shortUrlRepository = shortUrlRepositoryFactory();
+export const createShortUrlUseCase = new CreateShortUrlUseCase(
+  shortUrlRepository
+);

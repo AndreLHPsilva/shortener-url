@@ -20,6 +20,7 @@ export default defineConfig({
     environment: "node",
     setupFiles: ["./vitest.setup.ts"],
     env: {
+      NODE_ENV: "test",
       BASE_URL: process.env.BASE_URL,
     }
   },

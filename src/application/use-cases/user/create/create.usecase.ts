@@ -1,9 +1,9 @@
-import { IUserRepository } from "@infrastructure/prisma/user/contract/index.js";
 import { ICreateUserUseCaseProps } from "./types.js";
 import { User } from "@domain/entities/user.entity.js";
 import { UserAlreadyExistsError } from "@shared/errors/UserAlreadyExistsError.js";
 import { UseCase } from "@application/use-cases/contract/useCase.js";
 import { hash } from "bcryptjs";
+import { IUserRepository } from "@infrastructure/prisma/user/contract/userRepository.interface.js";
 
 export class CreateUserUseCase extends UseCase<ICreateUserUseCaseProps, void> {
   constructor(private repository: IUserRepository) {

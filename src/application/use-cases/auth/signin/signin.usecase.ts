@@ -2,9 +2,8 @@ import { ISigninResponseUseCase, ISigninUseCaseProps } from "./types.js";
 import { UseCase } from "@application/use-cases/contract/useCase.js";
 import { compare } from "bcryptjs";
 import { EmailOrPasswordIncorrectError } from "@shared/errors/EmailOrPasswordIncorrectError.js";
-import {} from "@fastify/jwt";
-import { app } from "src/server.js";
 import { IUserRepository } from "@infrastructure/prisma/user/contract/userRepository.interface.js";
+import { app } from "src/app.js";
 
 export class SigninUseCase extends UseCase<
   ISigninUseCaseProps,

@@ -27,7 +27,7 @@ export class UpdateShortUrlController {
 
     const user = request?.user as IUserJwt;
 
-    const resp = await this.updateShortUrlUseCase.execute({
+    await this.updateShortUrlUseCase.execute({
       ...dataValidated,
       userId: user.id,
     });
