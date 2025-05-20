@@ -1,7 +1,6 @@
-import { User } from "@domain/entities/user.entity.js";
-import { prisma } from "../prisma.js";
-import { IUserRepository } from "./contract/userRepository.interface.js";
-import { toSpISOString } from "@shared/utils/date/index.js";
+import { User } from "@domain/entities/user.entity";
+import { prisma } from "../prisma";
+import { IUserRepository } from "./contract/userRepository.interface";
 
 export class UserRepository implements IUserRepository {
   constructor(private repository = prisma.users) {}

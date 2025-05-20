@@ -7,12 +7,8 @@ import {
   MockInstance,
   afterEach,
 } from "vitest";
-import { ShortUrl } from "@domain/entities/shortUrl.entity.js";
-import { ShortUrlRepository } from "@infrastructure/prisma/shortUrl/shortUrl.repository.js";
-import { LongUrlObjValue } from "@domain/objectValues/longUrl.objValue.js";
-import { IdentifierObjValue } from "@domain/objectValues/identifier.objValue.js";
-import { UserRepository } from "@infrastructure/prisma/user/user.repository.js";
-import { User } from "@domain/entities/user.entity.js";
+import { UserRepository } from "@infrastructure/prisma/user/user.repository";
+import { User } from "@domain/entities/user.entity";
 
 describe("UserRepository", () => {
   let repositoryMock: any;

@@ -1,5 +1,5 @@
 import { FastifyReply } from "fastify";
-import { INTERNAL_ERRORS_CODE } from "../errors.js";
+import { INTERNAL_ERRORS_CODE } from "../errors";
 
 export class HttpResponse {
   static success<T>(data: T, reply: FastifyReply, status = 200) {

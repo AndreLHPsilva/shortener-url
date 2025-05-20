@@ -1,6 +1,6 @@
-import { toSpISOString } from "@shared/utils/date/index.js";
-import { ShortUrl } from "./shortUrl.entity.js";
-import { IAccessShortUrlLog } from "@domain/interfaces/accessShortUrlLog.interface.js";
+import { toSpISOString } from "@shared/utils/date/index";
+import { ShortUrl } from "./shortUrl.entity";
+import { IAccessShortUrlLog } from "@domain/interfaces/accessShortUrlLog.interface";
 
 export class AccessShortUrlLog {
   constructor(

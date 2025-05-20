@@ -1,6 +1,6 @@
-import { prisma } from "../prisma.js";
-import { IShortUrlLogsRepository } from "./contract/shortUrlLogsRepository.interface.js";
-import { ShortUrlLog } from "@domain/entities/ShortUrlLog.entity.js";
+import { ShortUrlLog } from "@domain/entities/ShortUrlLog.entity";
+import { prisma } from "@infrastructure/prisma/prisma";
+import { IShortUrlLogsRepository } from "@infrastructure/prisma/shortUrl/contract/shortUrlLogsRepository.interface";
 
 export class ShortUrlLogRepository implements IShortUrlLogsRepository {
   constructor(private repository = prisma.shortUrlLogs) {}

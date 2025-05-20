@@ -1,5 +1,5 @@
-import { IShortUrl } from "./shortUrl.interface.js";
-import { IUser } from "./user.interface.js";
+import { IShortUrl } from "./shortUrl.interface";
+import { IUser } from "./user.interface";
 
 export enum EActionShortUrlLog {
   DELETE = "DELETE",

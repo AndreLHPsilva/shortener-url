@@ -1,6 +1,6 @@
-import { ShortUrlRepository } from "@infrastructure/prisma/shortUrl/shortUrl.repository.js";
-import { RedirectShortUrlUseCase } from "./redirect.usecase.js";
-import { contabilizeAccessToUrlUseCase } from "../contabilizeAccessToUrl/index.js";
+import { ShortUrlRepository } from "@infrastructure/prisma/shortUrl/shortUrl.repository";
+import { RedirectShortUrlUseCase } from "./redirect.usecase";
+import { contabilizeAccessToUrlUseCase } from "../contabilizeAccessToUrl/index";
 
 const shortUrlRepository = new ShortUrlRepository();
 export const redirectShortUrlUseCase = new RedirectShortUrlUseCase(

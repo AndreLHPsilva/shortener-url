@@ -1,7 +1,7 @@
-import { ShortUrl } from "@domain/entities/shortUrl.entity.js";
-import { ShortUrlLog } from "@domain/entities/ShortUrlLog.entity.js";
-import { IShortUrl } from "@domain/interfaces/shortUrl.interface.js";
-import { EActionShortUrlLog } from "@domain/interfaces/shortUrlLog.interface.js";
+import { ShortUrl } from "@domain/entities/shortUrl.entity";
+import { ShortUrlLog } from "@domain/entities/shortUrlLog.entity";
+import { IShortUrl } from "@domain/interfaces/shortUrl.interface";
+import { EActionShortUrlLog } from "@domain/interfaces/shortUrlLog.interface";
 import { describe, expect, test } from "vitest";
 
 describe("ShortUrlLog Entity", () => {

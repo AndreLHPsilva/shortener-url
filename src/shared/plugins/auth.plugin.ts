@@ -1,6 +1,6 @@
 import fp from "fastify-plugin";
 import { FastifyPluginAsync, FastifyReply, FastifyRequest } from "fastify";
-import { HttpResponse } from "@shared/http/HttpResponse.js";
+import { HttpResponse } from "@shared/http/HttpResponse";
 
 const authPlugin: FastifyPluginAsync = async (app) => {
   app.decorate(

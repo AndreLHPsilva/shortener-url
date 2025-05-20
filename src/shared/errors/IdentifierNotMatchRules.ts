@@ -1,5 +1,5 @@
-import { IdentifierObjValue } from "@domain/objectValues/identifier.objValue.js";
-import { AppError } from "./AppError.js";
+import { IdentifierObjValue } from "@domain/objectValues/identifier.objValue";
+import { AppError } from "./AppError";
 
 export class IdentifierNotMatchRulesError extends AppError {
   constructor() {

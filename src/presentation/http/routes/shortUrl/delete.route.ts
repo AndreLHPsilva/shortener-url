@@ -1,5 +1,5 @@
-import { deleteShortUrlController } from "@presentation/http/controllers/shortUrl/delete/index.js";
-import { TypeFastifyInstance } from "@shared/types/types.js";
+import { deleteShortUrlController } from "@presentation/http/controllers/shortUrl/delete/index";
+import { TypeFastifyInstance } from "@shared/types/types";
 import z from "zod";
 
 export async function deleteShortUrlRoute(app: TypeFastifyInstance) {

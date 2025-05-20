@@ -1,12 +1,12 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { ZodValidatorError } from "@shared/utils/zod/validator.js";
-import { HttpResponse } from "@shared/http/HttpResponse.js";
-import { SigninValidator } from "./types.js";
-import { UseCase } from "@application/use-cases/contract/useCase.js";
+import { ZodValidatorError } from "@shared/utils/zod/validator";
+import { HttpResponse } from "@shared/http/HttpResponse";
+import { SigninValidator } from "./types";
+import { UseCase } from "@application/use-cases/contract/useCase";
 import {
   ISigninResponseUseCase,
   ISigninUseCaseProps,
-} from "@application/use-cases/auth/signin/types.js";
+} from "@application/use-cases/auth/signin/types";
 
 export class SigninController {
   constructor(

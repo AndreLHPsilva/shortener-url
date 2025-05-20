@@ -1,8 +1,7 @@
-import { AccessShortUrlLog } from "@domain/entities/accessShortUrlLog.entity.js";
-import { ShortUrl } from "@domain/entities/shortUrl.entity.js";
-import { ShortUrlLog } from "@domain/entities/ShortUrlLog.entity.js";
-import { IAccessShortUrlLog } from "@domain/interfaces/accessShortUrlLog.interface.js";
-import { IShortUrl } from "@domain/interfaces/shortUrl.interface.js";
+import { AccessShortUrlLog } from "@domain/entities/accessShortUrlLog.entity";
+import { ShortUrl } from "@domain/entities/shortUrl.entity";
+import { IAccessShortUrlLog } from "@domain/interfaces/accessShortUrlLog.interface";
+import { IShortUrl } from "@domain/interfaces/shortUrl.interface";
 import { describe, expect, test } from "vitest";
 
 describe("AccessShortUrlLog Entity", () => {

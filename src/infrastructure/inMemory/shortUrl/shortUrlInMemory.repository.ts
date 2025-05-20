@@ -1,6 +1,6 @@
-import { LongUrlObjValue } from "@domain/objectValues/longUrl.objValue.js";
-import { ShortUrl } from "@domain/entities/shortUrl.entity.js";
-import { IShortUrlRepository } from "@infrastructure/prisma/shortUrl/contract/shortUrlRepository.interface.js";
+import { LongUrlObjValue } from "@domain/objectValues/longUrl.objValue";
+import { ShortUrl } from "@domain/entities/shortUrl.entity";
+import { IShortUrlRepository } from "@infrastructure/prisma/shortUrl/contract/shortUrlRepository.interface";
 
 export class ShortUrlInMemoryRepository implements IShortUrlRepository {
   constructor(private shortUrls: ShortUrl[] = []) {}

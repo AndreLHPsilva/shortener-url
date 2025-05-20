@@ -1,5 +1,5 @@
-import { IdentifierObjValue } from "@domain/objectValues/identifier.objValue.js";
-import { IdentifierNotMatchRulesError } from "@shared/errors/IdentifierNotMatchRules.js";
+import { IdentifierObjValue } from "@domain/objectValues/identifier.objValue";
+import { IdentifierNotMatchRulesError } from "@shared/errors/IdentifierNotMatchRules";
 import { describe, expect, test } from "vitest";
 
 describe("Identifier Object Value", () => {

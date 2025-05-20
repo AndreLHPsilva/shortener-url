@@ -1,9 +1,9 @@
-import { AccessShortUrlLog } from "@domain/entities/accessShortUrlLog.entity.js";
-import { IContabilizeAccessToUrlUseCaseProps } from "./types.js";
-import { UseCase } from "@application/use-cases/contract/useCase.js";
-import { IAccessShortUrlLogsRepository } from "@infrastructure/prisma/shortUrl/contract/accessShortUrlLogsRepository.interface.js";
-import { IShortUrlRepository } from "@infrastructure/prisma/shortUrl/contract/shortUrlRepository.interface.js";
-import { ShortUrlNotFoundedError } from "@shared/errors/ShortUrlNotFounded.js";
+import { AccessShortUrlLog } from "@domain/entities/accessShortUrlLog.entity";
+import { IContabilizeAccessToUrlUseCaseProps } from "./types";
+import { UseCase } from "@application/use-cases/contract/useCase";
+import { IAccessShortUrlLogsRepository } from "@infrastructure/prisma/shortUrl/contract/accessShortUrlLogsRepository.interface";
+import { IShortUrlRepository } from "@infrastructure/prisma/shortUrl/contract/shortUrlRepository.interface";
+import { ShortUrlNotFoundedError } from "@shared/errors/ShortUrlNotFounded";
 
 export class ContabilizeAccessToUrlUseCase extends UseCase<
   IContabilizeAccessToUrlUseCaseProps,

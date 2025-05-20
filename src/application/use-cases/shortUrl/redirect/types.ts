@@ -1,4 +1,4 @@
-import { ShortUrl } from "@domain/entities/shortUrl.entity.js";
+import { ShortUrl } from "@domain/entities/shortUrl.entity";
 
 export interface IRedirectShortUrlUseCaseProps {
   identifierShortUrl: string;

@@ -1,7 +1,7 @@
-import { ShortUrlRepository } from "@infrastructure/prisma/shortUrl/shortUrl.repository.js";
-import { CreateLogWhenUpdateUseCase } from "../createLogWhenUpdate/createLogWhenUpdate.usecase.js";
-import { ShortUrlLogRepository } from "@infrastructure/prisma/shortUrl/shortUrlLog.repository.js";
-import { DeleteShortUrlUseCase } from "./delete.usecase.js";
+import { ShortUrlRepository } from "@infrastructure/prisma/shortUrl/shortUrl.repository";
+import { CreateLogWhenUpdateUseCase } from "../createLogWhenUpdate/createLogWhenUpdate.usecase";
+import { ShortUrlLogRepository } from "@infrastructure/prisma/shortUrl/shortUrlLog.repository";
+import { DeleteShortUrlUseCase } from "./delete.usecase";
 
 const shortUrlRepository = new ShortUrlRepository();
 const shortUrlLogsRepository = new ShortUrlLogRepository();

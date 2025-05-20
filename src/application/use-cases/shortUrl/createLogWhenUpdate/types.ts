@@ -1,4 +1,4 @@
-import { EActionShortUrlLog } from "@domain/interfaces/shortUrlLog.interface.js";
+import { EActionShortUrlLog } from "@domain/interfaces/shortUrlLog.interface";
 
 export interface ICreateLogWhenUpdateUseCaseProps {
   shortUrlId: string;

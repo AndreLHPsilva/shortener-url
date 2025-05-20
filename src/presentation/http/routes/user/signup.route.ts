@@ -1,7 +1,7 @@
-import { TypeFastifyInstance } from "@shared/types/types.js";
+import { TypeFastifyInstance } from "@shared/types/types";
 import z from "zod";
-import { createUserController } from "@presentation/http/controllers/user/create/index.js";
-import { CreateUserValidator } from "@presentation/http/controllers/user/create/types.js";
+import { createUserController } from "@presentation/http/controllers/user/create/index";
+import { CreateUserValidator } from "@presentation/http/controllers/user/create/types";
 
 export async function signupRoute(app: TypeFastifyInstance) {
   app.post(

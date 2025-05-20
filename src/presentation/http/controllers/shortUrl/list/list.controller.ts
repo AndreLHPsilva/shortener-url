@@ -1,11 +1,11 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { HttpResponse } from "@shared/http/HttpResponse.js";
-import { UseCase } from "@application/use-cases/contract/useCase.js";
-import { IUserJwt } from "@shared/types/types.js";
+import { HttpResponse } from "@shared/http/HttpResponse";
+import { UseCase } from "@application/use-cases/contract/useCase";
+import { IUserJwt } from "@shared/types/types";
 import {
   IListShortUrlResponse,
   IListShortUrlUseCaseProps,
-} from "@application/use-cases/shortUrl/list/types.js";
+} from "@application/use-cases/shortUrl/list/types";
 
 export class ListShortUrlController {
   constructor(

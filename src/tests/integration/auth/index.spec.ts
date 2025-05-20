@@ -7,14 +7,14 @@ import {
   afterAll,
   vi,
 } from "vitest";
-import { app } from "src/app.js";
-import { CreateUserUseCase } from "@application/use-cases/user/create/create.usecase.js";
-import { IUserRepository } from "@infrastructure/prisma/user/contract/userRepository.interface.js";
-import { SigninUseCase } from "@application/use-cases/auth/signin/signin.usecase.js";
+import { app } from "src/app";
+import { CreateUserUseCase } from "@application/use-cases/user/create/create.usecase";
+import { IUserRepository } from "@infrastructure/prisma/user/contract/userRepository.interface";
+import { SigninUseCase } from "@application/use-cases/auth/signin/signin.usecase";
 import { FastifyReply, FastifyRequest } from "fastify";
-import { SigninController } from "@presentation/http/controllers/auth/signin/signin.controller.js";
-import { EmailOrPasswordIncorrectError } from "@shared/errors/EmailOrPasswordIncorrectError.js";
-import { UserInMemoryRepository } from "@infrastructure/inMemory/user/userInMemory.repository.js";
+import { SigninController } from "@presentation/http/controllers/auth/signin/signin.controller";
+import { EmailOrPasswordIncorrectError } from "@shared/errors/EmailOrPasswordIncorrectError";
+import { UserInMemoryRepository } from "@infrastructure/inMemory/user/userInMemory.repository";
 
 describe("Auth route", () => {
   let useCaseCreateUser: CreateUserUseCase;

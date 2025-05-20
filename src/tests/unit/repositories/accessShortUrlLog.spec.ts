@@ -7,12 +7,12 @@ import {
   MockInstance,
   afterEach,
 } from "vitest";
-import { ShortUrl } from "@domain/entities/shortUrl.entity.js";
-import { LongUrlObjValue } from "@domain/objectValues/longUrl.objValue.js";
-import { IdentifierObjValue } from "@domain/objectValues/identifier.objValue.js";
-import { AccessShortUrlLogRepository } from "@infrastructure/prisma/shortUrl/accessShortUrlLog.repository.js";
-import { AccessShortUrlLog } from "@domain/entities/accessShortUrlLog.entity.js";
-import { IAccessShortUrlLog } from "@domain/interfaces/accessShortUrlLog.interface.js";
+import { ShortUrl } from "@domain/entities/shortUrl.entity";
+import { LongUrlObjValue } from "@domain/objectValues/longUrl.objValue";
+import { IdentifierObjValue } from "@domain/objectValues/identifier.objValue";
+import { AccessShortUrlLogRepository } from "@infrastructure/prisma/shortUrl/accessShortUrlLog.repository";
+import { AccessShortUrlLog } from "@domain/entities/accessShortUrlLog.entity";
+import { IAccessShortUrlLog } from "@domain/interfaces/accessShortUrlLog.interface";
 
 describe("AccessShortUrlLog", () => {
   let repositoryMock: any;

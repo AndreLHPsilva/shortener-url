@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { passwordsMatch } from "@shared/utils/zod/index.js";
+import { passwordsMatch } from "@shared/utils/zod/index";
 
 export const CreateUserValidator = passwordsMatch({
   email: z.string().email(),

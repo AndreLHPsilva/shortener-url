@@ -1,5 +1,5 @@
-import { IUser } from "@domain/interfaces/user.interface.js";
-import { toSpISOString } from "@shared/utils/date/index.js";
+import { IUser } from "@domain/interfaces/user.interface";
+import { toSpISOString } from "@shared/utils/date/index";
 
 export class User {
   static create(

@@ -1,6 +1,9 @@
+import { initalizeTracing } from "@lib/tracing";
+await initalizeTracing();
+
 import { app } from "./app";
 
-async function bootstrap() {
+function bootstrap() {
   try {
     app.listen({
       port: Number(process.env.PORT) || 3000,

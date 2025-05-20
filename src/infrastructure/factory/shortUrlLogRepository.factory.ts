@@ -1,5 +1,5 @@
-import { ShortUrlLogInMemoryRepository } from "@infrastructure/inMemory/shortUrl/shortUrlLogInMemory.repository.js";
-import { ShortUrlLogRepository } from "@infrastructure/prisma/shortUrl/shortUrlLog.repository.js";
+import { ShortUrlLogInMemoryRepository } from "@infrastructure/inMemory/shortUrl/shortUrlLogInMemory.repository";
+import { ShortUrlLogRepository } from "@infrastructure/prisma/shortUrl/shortUrlLog.repository";
 
 export function shortUrlLogRepositoryFactory() {
   if (process.env.NODE_ENV === "test") {

@@ -1,4 +1,4 @@
-import { AppError } from "./AppError.js";
+import { AppError } from "./AppError";
 
 export class FailedGenerateIdentifierError extends AppError {
   constructor() {

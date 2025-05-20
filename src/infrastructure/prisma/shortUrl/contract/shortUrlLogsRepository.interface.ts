@@ -1,5 +1,4 @@
-import { AccessShortUrlLog } from "@domain/entities/accessShortUrlLog.entity.js";
-import { ShortUrlLog } from "@domain/entities/ShortUrlLog.entity.js";
+import { ShortUrlLog } from "@domain/entities/shortUrlLog.entity";
 
 export interface IShortUrlLogsRepository {
   create: (data: ShortUrlLog) => Promise<any>;

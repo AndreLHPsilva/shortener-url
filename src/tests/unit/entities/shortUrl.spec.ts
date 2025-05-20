@@ -1,9 +1,9 @@
-import { ShortUrl } from "@domain/entities/shortUrl.entity.js";
-import { IShortUrl } from "@domain/interfaces/shortUrl.interface.js";
-import { IdentifierObjValue } from "@domain/objectValues/identifier.objValue.js";
-import { LongUrlObjValue } from "@domain/objectValues/longUrl.objValue.js";
-import { ShortUrlAlreadyDeletedError } from "@shared/errors/ShortUrlAlreadyDeletedError.js";
-import { toSpISOString } from "@shared/utils/date/index.js";
+import { ShortUrl } from "@domain/entities/shortUrl.entity";
+import { IShortUrl } from "@domain/interfaces/shortUrl.interface";
+import { IdentifierObjValue } from "@domain/objectValues/identifier.objValue";
+import { LongUrlObjValue } from "@domain/objectValues/longUrl.objValue";
+import { ShortUrlAlreadyDeletedError } from "@shared/errors/ShortUrlAlreadyDeletedError";
+import { toSpISOString } from "@shared/utils/date/index";
 import { describe, expect, test } from "vitest";
 
 describe("ShortUrl Entity", () => {

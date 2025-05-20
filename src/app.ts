@@ -24,7 +24,7 @@ import { redirectShortUrlRoute } from "@presentation/http/routes/shortUrl/redire
 dotenv.config();
 
 export const app = fastify({
-  logger: false,
+  logger: true,
 }).withTypeProvider<ZodTypeProvider>();
 
 app.setValidatorCompiler(validatorCompiler);

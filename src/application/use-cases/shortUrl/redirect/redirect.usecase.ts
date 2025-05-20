@@ -1,11 +1,13 @@
 import {
   IRedirectShortUrlResponse,
   IRedirectShortUrlUseCaseProps,
-} from "./types.js";
-import { UseCase } from "@application/use-cases/contract/useCase.js";
-import { IShortUrlRepository } from "@infrastructure/prisma/shortUrl/contract/shortUrlRepository.interface.js";
-import { ShortUrlNotFoundedError } from "@shared/errors/ShortUrlNotFounded.js";
-import { IContabilizeAccessToUrlUseCaseProps } from "../contabilizeAccessToUrl/types.js";
+} from "./types";
+import { UseCase } from "@application/use-cases/contract/useCase";
+import { IShortUrlRepository } from "@infrastructure/prisma/shortUrl/contract/shortUrlRepository.interface";
+import { ShortUrlNotFoundedError } from "@shared/errors/ShortUrlNotFounded";
+import { IContabilizeAccessToUrlUseCaseProps } from "../contabilizeAccessToUrl/types";
+import { toSpISOString } from "@shared/utils/date";
+import { ShortUrlExpired } from "@shared/errors/ShortUrlExpired";
 
 export class RedirectShortUrlUseCase extends UseCase<
   IRedirectShortUrlUseCaseProps,
@@ -26,6 +28,15 @@ export class RedirectShortUrlUseCase extends UseCase<
 
     if (!shortUrl) {
       throw new ShortUrlNotFoundedError();
+    }
+
+    const expiresIn = shortUrl.getProps().expiresIn;
+
+    if (expiresIn) {
+      const isExpired = toSpISOString() > expiresIn;
+      if (isExpired) {
+        throw new ShortUrlExpired();
+      }
     }
 
     await this.contabilizeAccessToUrlUseCase.execute({

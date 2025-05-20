@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const UpdateShortUrlValidator = z.object({
-  host: z.string(),
+  newUrl: z.string().url(),
   shortUrlId: z.string(),
 });
 

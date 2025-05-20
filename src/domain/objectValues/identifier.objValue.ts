@@ -1,4 +1,4 @@
-import { IdentifierNotMatchRulesError } from "@shared/errors/IdentifierNotMatchRules.js";
+import { IdentifierNotMatchRulesError } from "@shared/errors/IdentifierNotMatchRules";
 
 export class IdentifierObjValue {
   private value: string;

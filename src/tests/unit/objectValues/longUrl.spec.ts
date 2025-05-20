@@ -1,4 +1,4 @@
-import { LongUrlObjValue } from "@domain/objectValues/longUrl.objValue.js";
+import { LongUrlObjValue } from "@domain/objectValues/longUrl.objValue";
 import { describe, expect, test } from "vitest";
 
 describe("LongUrl Object Value", () => {

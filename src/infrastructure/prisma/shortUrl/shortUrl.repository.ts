@@ -1,7 +1,8 @@
-import { prisma } from "../prisma.js";
-import { IShortUrlRepository } from "./contract/shortUrlRepository.interface.js";
-import { ShortUrl } from "@domain/entities/shortUrl.entity.js";
-import { IShortUrl } from "@domain/interfaces/shortUrl.interface.js";
+import { toSpISOString } from "@shared/utils/date";
+import { prisma } from "../prisma";
+import { IShortUrlRepository } from "./contract/shortUrlRepository.interface";
+import { ShortUrl } from "@domain/entities/shortUrl.entity";
+import { IShortUrl } from "@domain/interfaces/shortUrl.interface";
 
 export class ShortUrlRepository implements IShortUrlRepository {
   constructor(private repository = prisma.shortUrls) {}
@@ -90,6 +91,7 @@ export class ShortUrlRepository implements IShortUrlRepository {
         path: shortUrlData.path,
         expiresIn: shortUrlData.expiresIn,
         deletedAt: shortUrlData.deletedAt,
+        updatedAt: shortUrlData.updatedAt,
         identifier: shortUrlData.identifier.getValue(),
         protocol: shortUrlData.protocol,
         ...(shortUrlData.userId && {

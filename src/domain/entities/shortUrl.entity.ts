@@ -1,9 +1,9 @@
-import { IShortUrl } from "@domain/interfaces/shortUrl.interface.js";
-import { LongUrlObjValue } from "@domain/objectValues/longUrl.objValue.js";
-import { toSpISOString } from "@shared/utils/date/index.js";
-import { AccessShortUrlLog } from "./accessShortUrlLog.entity.js";
-import { ShortUrlAlreadyDeletedError } from "@shared/errors/ShortUrlAlreadyDeletedError.js";
-import { IdentifierObjValue } from "@domain/objectValues/identifier.objValue.js";
+import { IShortUrl } from "@domain/interfaces/shortUrl.interface";
+import { LongUrlObjValue } from "@domain/objectValues/longUrl.objValue";
+import { toSpISOString } from "@shared/utils/date/index";
+import { AccessShortUrlLog } from "./accessShortUrlLog.entity";
+import { ShortUrlAlreadyDeletedError } from "@shared/errors/ShortUrlAlreadyDeletedError";
+import { IdentifierObjValue } from "@domain/objectValues/identifier.objValue";
 
 export class ShortUrl {
   private accessShortUrlLogs: AccessShortUrlLog[] = [];
@@ -86,6 +86,7 @@ export class ShortUrl {
       throw new ShortUrlAlreadyDeletedError();
     }
 
+    this.updatedAt = toSpISOString();
     this.deletedAt = toSpISOString();
   }
 
@@ -110,8 +111,13 @@ export class ShortUrl {
     this.accessShortUrlLogs = accessShortUrlLogs;
   }
 
-  setHost(host: string) {
+  update(newUrl: LongUrlObjValue) {
+    const { host, path, protocol } = newUrl.getProps();
+
     this.host = host;
+    this.path = path;
+    this.protocol = protocol;
+    this.updatedAt = toSpISOString();
   }
 
   getUrl() {

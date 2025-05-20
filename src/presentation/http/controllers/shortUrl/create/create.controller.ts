@@ -1,13 +1,13 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { ZodValidatorError } from "@shared/utils/zod/validator.js";
-import { HttpResponse } from "@shared/http/HttpResponse.js";
-import { UseCase } from "@application/use-cases/contract/useCase.js";
-import { CreateShortUrlValidator } from "./types.js";
+import { ZodValidatorError } from "@shared/utils/zod/validator";
+import { HttpResponse } from "@shared/http/HttpResponse";
+import { UseCase } from "@application/use-cases/contract/useCase";
+import { CreateShortUrlValidator } from "./types";
 import {
   ICreateShortUrlResponse,
   ICreateShortUrlUseCaseProps,
-} from "@application/use-cases/shortUrl/create/types.js";
-import { IUserJwt } from "@shared/types/types.js";
+} from "@application/use-cases/shortUrl/create/types";
+import { IUserJwt } from "@shared/types/types";
 
 export class CreateShortUrlController {
   constructor(

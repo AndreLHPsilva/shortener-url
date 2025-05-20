@@ -1,6 +1,6 @@
-import { AccessShortUrlLog } from "@domain/entities/accessShortUrlLog.entity.js";
-import { prisma } from "../prisma.js";
-import { IAccessShortUrlLogsRepository } from "./contract/accessShortUrlLogsRepository.interface.js";
+import { AccessShortUrlLog } from "@domain/entities/accessShortUrlLog.entity";
+import { prisma } from "../prisma";
+import { IAccessShortUrlLogsRepository } from "./contract/accessShortUrlLogsRepository.interface";
 
 export class AccessShortUrlLogRepository
   implements IAccessShortUrlLogsRepository

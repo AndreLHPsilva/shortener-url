@@ -1,9 +1,9 @@
-import { ISigninResponseUseCase, ISigninUseCaseProps } from "./types.js";
-import { UseCase } from "@application/use-cases/contract/useCase.js";
+import { ISigninResponseUseCase, ISigninUseCaseProps } from "./types";
+import { UseCase } from "@application/use-cases/contract/useCase";
 import { compare } from "bcryptjs";
-import { EmailOrPasswordIncorrectError } from "@shared/errors/EmailOrPasswordIncorrectError.js";
-import { IUserRepository } from "@infrastructure/prisma/user/contract/userRepository.interface.js";
-import { app } from "src/app.js";
+import { EmailOrPasswordIncorrectError } from "@shared/errors/EmailOrPasswordIncorrectError";
+import { IUserRepository } from "@infrastructure/prisma/user/contract/userRepository.interface";
+import { app } from "src/app";
 
 export class SigninUseCase extends UseCase<
   ISigninUseCaseProps,

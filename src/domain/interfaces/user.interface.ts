@@ -1,5 +1,5 @@
-import { IShortUrl } from "./shortUrl.interface.js";
-import { IShortUrlLog } from "./shortUrlLog.interface.js";
+import { IShortUrl } from "./shortUrl.interface";
+import { IShortUrlLog } from "./shortUrlLog.interface";
 
 export interface IUser {
   id: string;

@@ -7,30 +7,30 @@ import {
   test,
   vi,
 } from "vitest";
-import { CreateUserUseCase } from "@application/use-cases/user/create/create.usecase.js";
-import { IUserRepository } from "@infrastructure/prisma/user/contract/userRepository.interface.js";
-import { IShortUrlRepository } from "@infrastructure/prisma/shortUrl/contract/shortUrlRepository.interface.js";
+import { CreateUserUseCase } from "@application/use-cases/user/create/create.usecase";
+import { IUserRepository } from "@infrastructure/prisma/user/contract/userRepository.interface";
+import { IShortUrlRepository } from "@infrastructure/prisma/shortUrl/contract/shortUrlRepository.interface";
 import { FastifyReply, FastifyRequest } from "fastify";
-import { app } from "src/app.js";
-import { ICreateUserUseCaseProps } from "@application/use-cases/user/create/types.js";
-import { UseCase } from "@application/use-cases/contract/useCase.js";
+import { app } from "src/app";
+import { ICreateUserUseCaseProps } from "@application/use-cases/user/create/types";
+import { UseCase } from "@application/use-cases/contract/useCase";
 import {
   ISigninResponseUseCase,
   ISigninUseCaseProps,
-} from "@application/use-cases/auth/signin/types.js";
-import { SigninUseCase } from "@application/use-cases/auth/signin/signin.usecase.js";
-import { shortUrlRepositoryFactory } from "@infrastructure/factory/shortUrlRepository.factory.js";
-import { userRepositoryFactory } from "@infrastructure/factory/userRepository.factory.js";
-import { IUserJwt } from "@shared/types/types.js";
-import { ShortUrl } from "@domain/entities/shortUrl.entity.js";
-import { toSpISOString } from "@shared/utils/date/index.js";
-import { IdentifierObjValue } from "@domain/objectValues/identifier.objValue.js";
-import { CreateLogWhenUpdateUseCase } from "@application/use-cases/shortUrl/createLogWhenUpdate/createLogWhenUpdate.usecase.js";
-import { shortUrlLogRepositoryFactory } from "@infrastructure/factory/shortUrlLogRepository.factory.js";
-import { IShortUrlLogsRepository } from "@infrastructure/prisma/shortUrl/contract/shortUrlLogsRepository.interface.js";
-import { ShortUrlNotFoundedError } from "@shared/errors/ShortUrlNotFounded.js";
-import { UpdateShortUrlUseCase } from "@application/use-cases/shortUrl/update/update.usecase.js";
-import { UpdateShortUrlController } from "@presentation/http/controllers/shortUrl/update/update.controller.js";
+} from "@application/use-cases/auth/signin/types";
+import { SigninUseCase } from "@application/use-cases/auth/signin/signin.usecase";
+import { shortUrlRepositoryFactory } from "@infrastructure/factory/shortUrlRepository.factory";
+import { userRepositoryFactory } from "@infrastructure/factory/userRepository.factory";
+import { IUserJwt } from "@shared/types/types";
+import { ShortUrl } from "@domain/entities/shortUrl.entity";
+import { toSpISOString } from "@shared/utils/date/index";
+import { IdentifierObjValue } from "@domain/objectValues/identifier.objValue";
+import { CreateLogWhenUpdateUseCase } from "@application/use-cases/shortUrl/createLogWhenUpdate/createLogWhenUpdate.usecase";
+import { shortUrlLogRepositoryFactory } from "@infrastructure/factory/shortUrlLogRepository.factory";
+import { IShortUrlLogsRepository } from "@infrastructure/prisma/shortUrl/contract/shortUrlLogsRepository.interface";
+import { ShortUrlNotFoundedError } from "@shared/errors/ShortUrlNotFounded";
+import { UpdateShortUrlUseCase } from "@application/use-cases/shortUrl/update/update.usecase";
+import { UpdateShortUrlController } from "@presentation/http/controllers/shortUrl/update/update.controller";
 
 describe("Update short url route", () => {
   let userRepository: IUserRepository;
@@ -106,14 +106,14 @@ describe("Update short url route", () => {
       user.id
     );
 
-    const newHost = "localhost:4200";
+    const newUrl = "http://localhost:4200/second-url";
 
     const request = {
       params: {
         shortUrlId: shortUrlsBeforeUpdate.getProps().id,
       },
       body: {
-        host: newHost,
+        newUrl,
       },
       headers: {
         authorization: `Bearer ${token}`,
@@ -137,10 +137,10 @@ describe("Update short url route", () => {
       user.id
     );
 
-    expect(shortUrlsAfterUpdate.getProps().host).not.toEqual(
-      shortUrl.getProps().host
+    expect(shortUrlsAfterUpdate.getUrl()).not.toEqual(
+      shortUrl.getUrl()
     );
-    expect(shortUrlsAfterUpdate.getProps().host).toEqual(newHost);
+    expect(shortUrlsAfterUpdate.getUrl()).toEqual(newUrl);
   });
 
   test("should throw ShortUrlNotFoundedError if not founded short url", async () => {
@@ -164,7 +164,7 @@ describe("Update short url route", () => {
         shortUrlId: "id-not-exists",
       },
       body: {
-        host: "localhost:4200",
+        newUrl: "http://localhost:4200",
       },
       headers: {
         authorization: `Bearer ${token}`,

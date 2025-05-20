@@ -7,27 +7,27 @@ import {
   test,
   vi,
 } from "vitest";
-import { CreateUserUseCase } from "@application/use-cases/user/create/create.usecase.js";
-import { IUserRepository } from "@infrastructure/prisma/user/contract/userRepository.interface.js";
-import { IShortUrlRepository } from "@infrastructure/prisma/shortUrl/contract/shortUrlRepository.interface.js";
-import { CreateShortUrlController } from "@presentation/http/controllers/shortUrl/create/create.controller.js";
-import { CreateShortUrlUseCase } from "@application/use-cases/shortUrl/create/create.usecase.js";
+import { CreateUserUseCase } from "@application/use-cases/user/create/create.usecase";
+import { IUserRepository } from "@infrastructure/prisma/user/contract/userRepository.interface";
+import { IShortUrlRepository } from "@infrastructure/prisma/shortUrl/contract/shortUrlRepository.interface";
+import { CreateShortUrlController } from "@presentation/http/controllers/shortUrl/create/create.controller";
+import { CreateShortUrlUseCase } from "@application/use-cases/shortUrl/create/create.usecase";
 import { FastifyReply, FastifyRequest } from "fastify";
-import { app } from "src/app.js";
-import { ICreateUserUseCaseProps } from "@application/use-cases/user/create/types.js";
-import { UseCase } from "@application/use-cases/contract/useCase.js";
+import { app } from "src/app";
+import { ICreateUserUseCaseProps } from "@application/use-cases/user/create/types";
+import { UseCase } from "@application/use-cases/contract/useCase";
 import {
   ISigninResponseUseCase,
   ISigninUseCaseProps,
-} from "@application/use-cases/auth/signin/types.js";
-import { SigninUseCase } from "@application/use-cases/auth/signin/signin.usecase.js";
-import { shortUrlRepositoryFactory } from "@infrastructure/factory/shortUrlRepository.factory.js";
-import { userRepositoryFactory } from "@infrastructure/factory/userRepository.factory.js";
-import { IUserJwt } from "@shared/types/types.js";
-import { ShortUrl } from "@domain/entities/shortUrl.entity.js";
-import { toSpISOString } from "@shared/utils/date/index.js";
-import { IdentifierObjValue } from "@domain/objectValues/identifier.objValue.js";
-import { FailedGenerateIdentifierError } from "@shared/errors/FailedGenerateIdentifierError.js";
+} from "@application/use-cases/auth/signin/types";
+import { SigninUseCase } from "@application/use-cases/auth/signin/signin.usecase";
+import { shortUrlRepositoryFactory } from "@infrastructure/factory/shortUrlRepository.factory";
+import { userRepositoryFactory } from "@infrastructure/factory/userRepository.factory";
+import { IUserJwt } from "@shared/types/types";
+import { ShortUrl } from "@domain/entities/shortUrl.entity";
+import { toSpISOString } from "@shared/utils/date/index";
+import { IdentifierObjValue } from "@domain/objectValues/identifier.objValue";
+import { FailedGenerateIdentifierError } from "@shared/errors/FailedGenerateIdentifierError";
 
 describe("Create short url route", () => {
   let userRepository: IUserRepository;

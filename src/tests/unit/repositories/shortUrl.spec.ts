@@ -7,10 +7,11 @@ import {
   MockInstance,
   afterEach,
 } from "vitest";
-import { ShortUrl } from "@domain/entities/shortUrl.entity.js";
-import { ShortUrlRepository } from "@infrastructure/prisma/shortUrl/shortUrl.repository.js";
-import { LongUrlObjValue } from "@domain/objectValues/longUrl.objValue.js";
-import { IdentifierObjValue } from "@domain/objectValues/identifier.objValue.js";
+import { ShortUrl } from "@domain/entities/shortUrl.entity";
+import { ShortUrlRepository } from "@infrastructure/prisma/shortUrl/shortUrl.repository";
+import { LongUrlObjValue } from "@domain/objectValues/longUrl.objValue";
+import { IdentifierObjValue } from "@domain/objectValues/identifier.objValue";
+import { toSpISOString } from "@shared/utils/date";
 
 describe("ShortUrlRepository", () => {
   let repositoryMock: any;
@@ -274,6 +275,7 @@ describe("ShortUrlRepository", () => {
         path: shortUrlData.path,
         expiresIn: shortUrlData.expiresIn,
         deletedAt: shortUrlData.deletedAt,
+        updatedAt: toSpISOString(shortUrlData.updatedAt),
         identifier: shortUrlData.identifier,
         protocol: shortUrlData.protocol,
         user: {

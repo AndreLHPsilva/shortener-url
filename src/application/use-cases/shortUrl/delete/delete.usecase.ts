@@ -1,9 +1,9 @@
-import { UseCase } from "@application/use-cases/contract/useCase.js";
-import { IShortUrlRepository } from "@infrastructure/prisma/shortUrl/contract/shortUrlRepository.interface.js";
-import { ShortUrlNotFoundedError } from "@shared/errors/ShortUrlNotFounded.js";
-import { ICreateLogWhenUpdateUseCaseProps } from "../createLogWhenUpdate/types.js";
-import { IDeleteShortUrlUseCaseProps } from "./types.js";
-import { EActionShortUrlLog } from "@domain/interfaces/shortUrlLog.interface.js";
+import { UseCase } from "@application/use-cases/contract/useCase";
+import { IShortUrlRepository } from "@infrastructure/prisma/shortUrl/contract/shortUrlRepository.interface";
+import { ShortUrlNotFoundedError } from "@shared/errors/ShortUrlNotFounded";
+import { ICreateLogWhenUpdateUseCaseProps } from "../createLogWhenUpdate/types";
+import { IDeleteShortUrlUseCaseProps } from "./types";
+import { EActionShortUrlLog } from "@domain/interfaces/shortUrlLog.interface";
 
 export class DeleteShortUrlUseCase extends UseCase<
   IDeleteShortUrlUseCaseProps,

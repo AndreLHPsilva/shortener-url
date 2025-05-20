@@ -1,10 +1,10 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { ZodValidatorError } from "@shared/utils/zod/validator.js";
-import { HttpResponse } from "@shared/http/HttpResponse.js";
-import { UseCase } from "@application/use-cases/contract/useCase.js";
-import { IUserJwt } from "@shared/types/types.js";
-import { DeleteShortUrlValidator } from "./types.js";
-import { IDeleteShortUrlUseCaseProps } from "@application/use-cases/shortUrl/delete/types.js";
+import { ZodValidatorError } from "@shared/utils/zod/validator";
+import { HttpResponse } from "@shared/http/HttpResponse";
+import { UseCase } from "@application/use-cases/contract/useCase";
+import { IUserJwt } from "@shared/types/types";
+import { DeleteShortUrlValidator } from "./types";
+import { IDeleteShortUrlUseCaseProps } from "@application/use-cases/shortUrl/delete/types";
 
 export class DeleteShortUrlController {
   constructor(

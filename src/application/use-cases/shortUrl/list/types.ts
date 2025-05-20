@@ -1,4 +1,4 @@
-import { ILinks } from "@shared/types/types.js";
+import { ILinks } from "@shared/types/types";
 
 export interface IListShortUrlUseCaseProps {
   userId: string;

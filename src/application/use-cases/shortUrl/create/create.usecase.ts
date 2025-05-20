@@ -1,13 +1,10 @@
-import {
-  ICreateShortUrlResponse,
-  ICreateShortUrlUseCaseProps,
-} from "./types.js";
-import { UseCase } from "@application/use-cases/contract/useCase.js";
-import { ShortUrl } from "@domain/entities/shortUrl.entity.js";
-import { IdentifierObjValue } from "@domain/objectValues/identifier.objValue.js";
-import { LongUrlObjValue } from "@domain/objectValues/longUrl.objValue.js";
-import { IShortUrlRepository } from "@infrastructure/prisma/shortUrl/contract/shortUrlRepository.interface.js";
-import { FailedGenerateIdentifierError } from "@shared/errors/FailedGenerateIdentifierError.js";
+import { ICreateShortUrlResponse, ICreateShortUrlUseCaseProps } from "./types";
+import { UseCase } from "@application/use-cases/contract/useCase";
+import { ShortUrl } from "@domain/entities/shortUrl.entity";
+import { IdentifierObjValue } from "@domain/objectValues/identifier.objValue";
+import { LongUrlObjValue } from "@domain/objectValues/longUrl.objValue";
+import { IShortUrlRepository } from "@infrastructure/prisma/shortUrl/contract/shortUrlRepository.interface";
+import { FailedGenerateIdentifierError } from "@shared/errors/FailedGenerateIdentifierError";
 
 export class CreateShortUrlUseCase extends UseCase<
   ICreateShortUrlUseCaseProps,
@@ -64,7 +61,7 @@ export class CreateShortUrlUseCase extends UseCase<
     );
 
     await this.repository.create(shortUrl);
-    
+
     return {
       shortUrl: `${process.env.BASE_URL}/${shortUrl
         .getProps()

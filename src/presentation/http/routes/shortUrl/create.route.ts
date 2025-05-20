@@ -1,6 +1,6 @@
-import { createShortUrlController } from "@presentation/http/controllers/shortUrl/create/index.js";
-import { CreateShortUrlValidator } from "@presentation/http/controllers/shortUrl/create/types.js";
-import { TypeFastifyInstance } from "@shared/types/types.js";
+import { createShortUrlController } from "@presentation/http/controllers/shortUrl/create/index";
+import { CreateShortUrlValidator } from "@presentation/http/controllers/shortUrl/create/types";
+import { TypeFastifyInstance } from "@shared/types/types";
 import z from "zod";
 
 export async function createShortUrlRoute(app: TypeFastifyInstance) {

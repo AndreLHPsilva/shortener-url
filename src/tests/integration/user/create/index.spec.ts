@@ -7,15 +7,15 @@ import {
   test,
   vi,
 } from "vitest";
-import { app } from "src/app.js";
-import { CreateUserController } from "@presentation/http/controllers/user/create/create.controller.js";
-import { CreateUserUseCase } from "@application/use-cases/user/create/create.usecase.js";
-import { IUserRepository } from "@infrastructure/prisma/user/contract/userRepository.interface.js";
-import { userRepositoryFactory } from "@infrastructure/factory/userRepository.factory.js";
+import { app } from "src/app";
+import { CreateUserController } from "@presentation/http/controllers/user/create/create.controller";
+import { CreateUserUseCase } from "@application/use-cases/user/create/create.usecase";
+import { IUserRepository } from "@infrastructure/prisma/user/contract/userRepository.interface";
+import { userRepositoryFactory } from "@infrastructure/factory/userRepository.factory";
 import { FastifyReply, FastifyRequest } from "fastify";
-import { User } from "@domain/entities/user.entity.js";
-import { UserAlreadyExistsError } from "@shared/errors/UserAlreadyExistsError.js";
-import { ZodValidatorError } from "@shared/utils/zod/validator.js";
+import { User } from "@domain/entities/user.entity";
+import { UserAlreadyExistsError } from "@shared/errors/UserAlreadyExistsError";
+import { ZodValidatorError } from "@shared/utils/zod/validator";
 
 describe("Create user route", () => {
   let createUserController: CreateUserController;

@@ -1,4 +1,4 @@
-import { IAccessShortUrlLog } from "./accessShortUrlLog.interface.js";
+import { IAccessShortUrlLog } from "./accessShortUrlLog.interface";
 
 export interface IShortUrl {
   id: string;

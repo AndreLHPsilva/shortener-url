@@ -1,13 +1,10 @@
-import { UseCase } from "@application/use-cases/contract/useCase.js";
-import { ShortUrl } from "@domain/entities/shortUrl.entity.js";
-import { IdentifierObjValue } from "@domain/objectValues/identifier.objValue.js";
-import { LongUrlObjValue } from "@domain/objectValues/longUrl.objValue.js";
-import { IShortUrlRepository } from "@infrastructure/prisma/shortUrl/contract/shortUrlRepository.interface.js";
-import { FailedGenerateIdentifierError } from "@shared/errors/FailedGenerateIdentifierError.js";
-import { IUpdateShortUrlUseCaseProps } from "./types.js";
-import { ShortUrlNotFoundedError } from "@shared/errors/ShortUrlNotFounded.js";
-import { ICreateLogWhenUpdateUseCaseProps } from "../createLogWhenUpdate/types.js";
-import { EActionShortUrlLog } from "@domain/interfaces/shortUrlLog.interface.js";
+import { UseCase } from "@application/use-cases/contract/useCase";
+import { IShortUrlRepository } from "@infrastructure/prisma/shortUrl/contract/shortUrlRepository.interface";
+import { IUpdateShortUrlUseCaseProps } from "./types";
+import { ShortUrlNotFoundedError } from "@shared/errors/ShortUrlNotFounded";
+import { ICreateLogWhenUpdateUseCaseProps } from "../createLogWhenUpdate/types";
+import { EActionShortUrlLog } from "@domain/interfaces/shortUrlLog.interface";
+import { LongUrlObjValue } from "@domain/objectValues/longUrl.objValue";
 
 export class UpdateShortUrlUseCase extends UseCase<
   IUpdateShortUrlUseCaseProps,
@@ -23,24 +20,24 @@ export class UpdateShortUrlUseCase extends UseCase<
     super();
   }
 
-  async execute({ shortUrlId, host, userId }: IUpdateShortUrlUseCaseProps) {
+  async execute({ shortUrlId, newUrl, userId }: IUpdateShortUrlUseCaseProps) {
     const shortUrl = await this.repository.findById(shortUrlId);
 
     if (!shortUrl) {
       throw new ShortUrlNotFoundedError();
     }
 
-    const props = shortUrl.getProps();
-    const oldValue = props.host;
+    const oldValue = shortUrl.getUrl();
 
-    shortUrl.setHost(host);
+    const longUrl = LongUrlObjValue.create(newUrl);
+    shortUrl.update(longUrl);
 
     await this.repository.update(shortUrl);
     await this.createLogWhenUpdateUseCase.execute({
       shortUrlId,
       userId,
       oldValue,
-      newValue: host,
+      newValue: shortUrl.getUrl(),
       action: EActionShortUrlLog.UPDATE,
     });
 

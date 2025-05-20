@@ -1,5 +1,5 @@
-import { CreateShortUrlUseCase } from "./create.usecase.js";
-import { shortUrlRepositoryFactory } from "@infrastructure/factory/shortUrlRepository.factory.js";
+import { CreateShortUrlUseCase } from "./create.usecase";
+import { shortUrlRepositoryFactory } from "@infrastructure/factory/shortUrlRepository.factory";
 
 const shortUrlRepository = shortUrlRepositoryFactory();
 export const createShortUrlUseCase = new CreateShortUrlUseCase(

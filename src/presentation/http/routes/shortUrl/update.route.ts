@@ -1,6 +1,5 @@
-import { redirectShortUrlController } from "@presentation/http/controllers/shortUrl/redirect/index.js";
-import { updateShortUrlController } from "@presentation/http/controllers/shortUrl/update/index.js";
-import { TypeFastifyInstance } from "@shared/types/types.js";
+import { updateShortUrlController } from "@presentation/http/controllers/shortUrl/update/index";
+import { TypeFastifyInstance } from "@shared/types/types";
 import z from "zod";
 
 export async function updateShortUrlRoute(app: TypeFastifyInstance) {
@@ -16,7 +15,7 @@ export async function updateShortUrlRoute(app: TypeFastifyInstance) {
         }),
         security: [{ bearerAuth: [] }],
         body: z.object({
-          host: z.string(),
+          newUrl: z.string().url(),
         }),
         response: {
           200: z.null().describe("Short URL updated"),

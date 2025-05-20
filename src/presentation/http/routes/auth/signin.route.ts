@@ -1,6 +1,6 @@
 import z from "zod";
-import { TypeFastifyInstance } from "@shared/types/types.js";
-import { signinController } from "@presentation/http/controllers/auth/signin/index.js";
+import { TypeFastifyInstance } from "@shared/types/types";
+import { signinController } from "@presentation/http/controllers/auth/signin/index";
 
 export async function signinRoute(app: TypeFastifyInstance) {
   app.post(

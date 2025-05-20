@@ -1,12 +1,12 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { ZodValidatorError } from "@shared/utils/zod/validator.js";
-import { HttpResponse } from "@shared/http/HttpResponse.js";
-import { UseCase } from "@application/use-cases/contract/useCase.js";
-import { RedirectShortUrlValidator } from "./types.js";
+import { ZodValidatorError } from "@shared/utils/zod/validator";
+import { HttpResponse } from "@shared/http/HttpResponse";
+import { UseCase } from "@application/use-cases/contract/useCase";
+import { RedirectShortUrlValidator } from "./types";
 import {
   IRedirectShortUrlResponse,
   IRedirectShortUrlUseCaseProps,
-} from "@application/use-cases/shortUrl/redirect/types.js";
+} from "@application/use-cases/shortUrl/redirect/types";
 
 export class RedirectShortUrlController {
   constructor(

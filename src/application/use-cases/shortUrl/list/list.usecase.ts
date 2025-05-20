@@ -1,10 +1,10 @@
-import { UseCase } from "@application/use-cases/contract/useCase.js";
-import { IShortUrlRepository } from "@infrastructure/prisma/shortUrl/contract/shortUrlRepository.interface.js";
+import { UseCase } from "@application/use-cases/contract/useCase";
+import { IShortUrlRepository } from "@infrastructure/prisma/shortUrl/contract/shortUrlRepository.interface";
 import {
   IListShortUrl,
   IListShortUrlResponse,
   IListShortUrlUseCaseProps,
-} from "./types.js";
+} from "./types";
 
 export class ListShortUrlUseCase extends UseCase<
   IListShortUrlUseCaseProps,
