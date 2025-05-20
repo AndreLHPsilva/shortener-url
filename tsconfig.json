@@ -1,24 +1,14 @@
 {
-  "$schema": "https://json.schemastore.org/tsconfig",
-  "display": "Node 22",
-  "_version": "22.0.0",
   "compilerOptions": {
-    "lib": ["es2023"],
-    "module": "nodenext",
     "target": "es2022",
-
+    "moduleResolution": "node",
+    "module": "ESNext",
+    "lib": ["es2023"],
+    "outDir": "./dist",
+    "rootDir": "./",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "moduleResolution": "node16",
-
-    "moduleDetection": "force",
-
-    "rootDir": "./",
-    "resolveJsonModule": true,
-
-    "outDir": "./dist",
-
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
@@ -30,6 +20,7 @@
       "@shared/*": ["src/shared/*"],
       "@tests/*": ["src/tests/*"]
     },
+    "resolveJsonModule": true,
     "types": ["node", "./src/shared/types/fastify"]
   },
   "include": ["src/**/*"],
