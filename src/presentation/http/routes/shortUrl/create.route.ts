@@ -9,7 +9,7 @@ export async function createShortUrlRoute(app: TypeFastifyInstance) {
     {
       onRequest: [app.optionalAuthenticate],
       schema: {
-        description: "Route for register",
+        description: "Route for create short url",
         tags: ["short-url"],
         security: [{ bearerAuth: [] }],
         body: CreateShortUrlValidator,
