@@ -1,6 +1,6 @@
 import { setAttributeActiveSpan } from "@lib/tracing";
 import { ETelemetrySpanNames } from "@lib/tracing/types";
-import { INTERNAL_ERRORS_CODE } from "@shared/errors";
+import { INTERNAL_ERRORS_CODE } from "@shared/errors/errors";
 import { AppError } from "@shared/errors/AppError";
 import { HttpResponse } from "@shared/http/HttpResponse";
 import { removeSensiveData } from "@shared/utils/request/removeSensiveData";

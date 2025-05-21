@@ -1,6 +1,6 @@
 import { FastifyReply } from "fastify";
-import { INTERNAL_ERRORS_CODE } from "../errors";
 import { setAttributeActiveSpan } from "@lib/tracing";
+import { INTERNAL_ERRORS_CODE } from "@shared/errors/errors";
 
 export class HttpResponse {
   static success<T>(data: T, reply: FastifyReply, status = 200) {
