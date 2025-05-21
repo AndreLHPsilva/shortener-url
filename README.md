@@ -5,6 +5,63 @@ Projeto desenvolvido para teste técnico para vaga de Desenvolvedor Backend Plen
 ### Documentação da API.
    [https://documenter.getpostman.com/view/32027385/2s9YsFDtZ5](https://documenter.getpostman.com/view/36452934/2sB2qZEMzp) 
 
+### Estrutura de pastas do projeto
+Este projeto segue os princípios da Clean Architecture, visando separação de responsabilidades e independência entre as camadas. Abaixo está a estrutura de diretórios com suas respectivas finalidades:
+
+```text
+├── prisma/
+│   └── migrations/
+│       └── ...           # Migrations geradas pelo Prisma
+│
+└── src/
+    ├── application/      # Camada de aplicação (use-cases)
+    │   └── use-cases/
+    │       ├── auth/             # Casos de uso relacionados à autenticação
+    │       ├── contract/         # Contratos de entrada/saída dos use-cases
+    │       ├── shortUrl/         # Casos de uso para encurtar, listar, deletar, redirecionar etc.
+    │       └── user/             # Casos de uso relacionados a usuários
+    │
+    ├── domain/           # Camada de domínio (regras de negócio puras)
+    │   ├── entities/            # Entidades de negócio
+    │   ├── interfaces/          # Interfaces e contratos para repositórios e entidades
+    │   └── objectValues/        # Value Objects utilizados pelas entidades
+    │
+    ├── infrastructure/   # Implementações concretas (banco, serviços externos, etc.)
+    │   ├── factory/             # Fábricas para injeção de dependência
+    │   ├── inMemory/            # Implementações em memória para testes/mocks
+    │   └── prisma/              # Implementações usando o ORM Prisma
+    │       ├── shortUrl/
+    │       └── user/
+    │
+    ├── lib/              # Bibliotecas auxiliares compartilhadas
+    │   └── tracing/             # Sistema de tracing/logging
+    │
+    ├── presentation/     # Camada de apresentação (HTTP)
+    │   └── http/
+    │       ├── controllers/     # Controllers que mapeiam as rotas para os use-cases
+    │       └── routes/          # Definições das rotas HTTP agrupadas por contexto
+    │
+    ├── shared/           # Recursos e utilitários compartilhados por todo o projeto
+    │   ├── errorHandler/        # Middleware de tratamento de erros
+    │   ├── errors/              # Classes de erro customizadas
+    │   ├── http/                # Utilitários relacionados à camada HTTP
+    │   ├── plugins/             # Plugins globais (ex: validação, logging)
+    │   ├── types/               # Tipagens globais do projeto
+    │   └── utils/               # Funções utilitárias gerais
+    │       ├── date/
+    │       ├── request/
+    │       └── zod/
+    │
+    └── tests/            # Testes automatizados
+        ├── integration/         # Testes de integração
+        │   ├── auth/
+        │   ├── shortUrl/
+        │   └── user/
+        └── unit/                # Testes unitários
+            ├── entities/
+            ├── objectValues/
+            └── repositories/
+```
 ### Instruções.
 
 Caso não tenha em sua maquina, baixe Docker Desktop:
@@ -36,6 +93,12 @@ Execute os seguintes comandos para configurar o projeto a primeira vez.
 - Você também poderá visualizar o tracing da aplicação no Jaeger:
     [http://localhost:](http://localhost:16686)
 
+### Testes
+   Para rodar os testes unitários e de integração, rode o comando
+   ```
+     npm run test
+   ```  
+
 ### Testando a API
    - Você pode testar utilizando o POSTMAN, para isso, faça o download do mesmo: https://www.postman.com/downloads/ e instale em seu PC. Após o download e instalação, você pode importar a collection que está na raiz do projeto, nome: shortener_url_api.postman_collection.json ou acessar este link: [https://documenter.getpostman.com/view/32027385/2s9YsFDtZ5](https://documenter.getpostman.com/view/36452934/2sB2qZEMzp) onde se encontra a Documentação da API, com isso você conseguirá acessar a collection clicando em **RUN IN POSTMAN**
 
@@ -44,6 +107,8 @@ Execute os seguintes comandos para configurar o projeto a primeira vez.
 ### Pontos de melhorias
     - Criação de um endpoint para listagem dos logs de atualizações da URL encurtada
     - Adicionar sistema de autorização para que ADMIN's possam visualizar URL's que não tenham usuários vinculados.
+    - Melhorar a nomenclatura dos spans para melhor visualização
+    - Adicionar exporter para métricas
 
 ### Sistema error codes
     -  Err0001 - Erros referente a validações das tipagens feitas no schema nos arquivos das rotas,
