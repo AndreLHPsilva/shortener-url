@@ -80,9 +80,9 @@ Caso tenha o VSCODE em sua maquina:
    ```
 Execute os seguintes comandos para configurar o projeto a primeira vez.
 - Copie arquivo .ENV.EXEMPLE:
-      ```
+    ```
       cp .\.env.exemple .env
-      ```
+    ```
 - E depois:
     ```
      docker-compose up --build -d
