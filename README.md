@@ -1,4 +1,4 @@
-# teste-tecnico Encurtador URL (shortener-url)
+# Encurtador URL (shortener-url)
 
 Projeto desenvolvido para teste técnico para vaga de Desenvolvedor Backend Pleno.
 
