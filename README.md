@@ -80,8 +80,13 @@ Caso tenha o VSCODE em sua maquina:
    ```
 Execute os seguintes comandos para configurar o projeto a primeira vez.
 - Copie arquivo .ENV.EXEMPLE:
+   -   BASH: 
     ```
-      cp .\.env.exemple .env
+      cp .\env.example .env
+    ```
+   -   PowerShell: 
+    ```
+      Copy-Item .\.env.example .env
     ```
 - E depois:
     ```
