@@ -41,9 +41,9 @@ services:
     ports:
       - "5433:5432"
     environment:
-      POSTGRES_USER: pguser
-      POSTGRES_PASSWORD: pgpassword
-      POSTGRES_DB: shortener
+      POSTGRES_USER: ${PG_USER}
+      POSTGRES_PASSWORD: ${PG_PASSWORD}
+      POSTGRES_DB: ${PG_DATABASE}
     volumes:
       - db-data:/var/lib/postgresql/data
 
@@ -56,12 +56,12 @@ services:
     restart: unless-stopped
     environment:
       - PORT=3000
-      - DATABASE_URL=postgresql://${PG_USER}:${PG_PASSWORD}@${PG_HOST}:${PG_PORT}/shortener?schema=public
+      - DATABASE_URL=postgresql://${PG_USER}:${PG_PASSWORD}@${PG_HOST}:${PG_PORT}/${PG_DATABASE}?schema=public
       - JWT_SECRET=${JWT_SECRET}
-      - BASE_URL=http://localhost:3000
-      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
+      - BASE_URL=http://localhost:${PORT}
+      - OTEL_EXPORTER_OTLP_ENDPOINT=${OTEL_EXPORTER_OTLP_ENDPOINT}
     ports:
-      - "3000:3000"
+      - "${PORT}:3000"
     depends_on:
       - database
       - otel-collector
