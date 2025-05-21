@@ -8,7 +8,7 @@ import {
   vi,
 } from "vitest";
 import { CreateUserUseCase } from "@application/use-cases/user/create/create.usecase";
-import { IUserRepository } from "@infrastructure/prisma/user/contract/userRepository.interface";
+import { IUserRepository } from "@domain/interfaces/userRepository.interface";
 import { IShortUrlRepository } from "@infrastructure/prisma/shortUrl/contract/shortUrlRepository.interface";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { app } from "src/app";

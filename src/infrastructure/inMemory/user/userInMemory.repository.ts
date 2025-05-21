@@ -1,5 +1,5 @@
 import { User } from "@domain/entities/user.entity";
-import { IUserRepository } from "@infrastructure/prisma/user/contract/userRepository.interface";
+import { IUserRepository } from "@domain/interfaces/userRepository.interface";
 
 export class UserInMemoryRepository implements IUserRepository {
   constructor(private users: User[] = []) {}

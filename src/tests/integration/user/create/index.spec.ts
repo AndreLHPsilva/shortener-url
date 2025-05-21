@@ -10,7 +10,7 @@ import {
 import { app } from "src/app";
 import { CreateUserController } from "@presentation/http/controllers/user/create/create.controller";
 import { CreateUserUseCase } from "@application/use-cases/user/create/create.usecase";
-import { IUserRepository } from "@infrastructure/prisma/user/contract/userRepository.interface";
+import { IUserRepository } from "@domain/interfaces/userRepository.interface";
 import { userRepositoryFactory } from "@infrastructure/factory/userRepository.factory";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { User } from "@domain/entities/user.entity";

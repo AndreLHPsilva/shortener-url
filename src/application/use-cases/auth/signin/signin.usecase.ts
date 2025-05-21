@@ -2,7 +2,7 @@ import { ISigninResponseUseCase, ISigninUseCaseProps } from "./types";
 import { UseCase } from "@application/use-cases/contract/useCase";
 import { compare } from "bcryptjs";
 import { EmailOrPasswordIncorrectError } from "@shared/errors/EmailOrPasswordIncorrectError";
-import { IUserRepository } from "@infrastructure/prisma/user/contract/userRepository.interface";
+import { IUserRepository } from "@domain/interfaces/userRepository.interface";
 import { app } from "src/app";
 import { setAttributeActiveSpan } from "@lib/tracing";
 import { ETelemetrySpanNames } from "@lib/tracing/types";

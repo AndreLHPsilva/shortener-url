@@ -3,7 +3,7 @@ import { User } from "@domain/entities/user.entity";
 import { UserAlreadyExistsError } from "@shared/errors/UserAlreadyExistsError";
 import { UseCase } from "@application/use-cases/contract/useCase";
 import { hash } from "bcryptjs";
-import { IUserRepository } from "@infrastructure/prisma/user/contract/userRepository.interface";
+import { IUserRepository } from "@domain/interfaces/userRepository.interface";
 import { setAttributeActiveSpan } from "@lib/tracing";
 import { ETelemetrySpanNames } from "@lib/tracing/types";
 

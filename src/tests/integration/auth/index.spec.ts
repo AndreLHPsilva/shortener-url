@@ -9,7 +9,7 @@ import {
 } from "vitest";
 import { app } from "src/app";
 import { CreateUserUseCase } from "@application/use-cases/user/create/create.usecase";
-import { IUserRepository } from "@infrastructure/prisma/user/contract/userRepository.interface";
+import { IUserRepository } from "@domain/interfaces/userRepository.interface";
 import { SigninUseCase } from "@application/use-cases/auth/signin/signin.usecase";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { SigninController } from "@presentation/http/controllers/auth/signin/signin.controller";
