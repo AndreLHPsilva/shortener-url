@@ -44,7 +44,8 @@ describe("ShortUrlLogRepository", () => {
     const longUrl = LongUrlObjValue.create(
       `${shortUrlData.protocol}//${shortUrlData.host}${shortUrlData.path}`
     );
-    const identifier = "12345678";
+    const identifier = new IdentifierObjValue("12345678");
+
     const shortUrl = ShortUrl.create(
       null,
       longUrl,

@@ -12,6 +12,7 @@ import { LongUrlObjValue } from "@domain/objectValues/longUrl.objValue";
 import { AccessShortUrlLogRepository } from "@infrastructure/prisma/shortUrl/accessShortUrlLog.repository";
 import { AccessShortUrlLog } from "@domain/entities/accessShortUrlLog.entity";
 import { IAccessShortUrlLog } from "@domain/interfaces/accessShortUrlLog.interface";
+import { IdentifierObjValue } from "@domain/objectValues/identifier.objValue";
 
 describe("AccessShortUrlLog", () => {
   let repositoryMock: any;
@@ -38,12 +39,14 @@ describe("AccessShortUrlLog", () => {
       ip: "ip",
     };
 
+    const identifier = new IdentifierObjValue("12345678")
+
     const shortUrl = ShortUrl.create(
       null,
       LongUrlObjValue.create("https://teste.com.br"),
       null,
       "userId",
-      "12345678"
+      identifier
     );
 
     const accessShortUrlLog = AccessShortUrlLog.create(
@@ -78,12 +81,14 @@ describe("AccessShortUrlLog", () => {
       ip: "ip",
     };
 
+    const identifier = new IdentifierObjValue("12345678")
+
     const shortUrl = ShortUrl.create(
       null,
       LongUrlObjValue.create("https://teste.com.br"),
       null,
       "userId",
-      "12345678"
+      identifier
     );
 
     repositoryMock.findFirst.mockResolvedValue(accessShortUrlLogData);

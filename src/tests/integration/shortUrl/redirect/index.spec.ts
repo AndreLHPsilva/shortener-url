@@ -108,7 +108,7 @@ describe.only("Redirect short url route", () => {
       longUrl,
       payload.expiresIn,
       null,
-      identifier.getValue()
+      identifier
     );
 
     vi.spyOn(shortUrlRepository, 'create').mockResolvedValueOnce(shortUrl);
@@ -164,11 +164,11 @@ describe.only("Redirect short url route", () => {
 
     const identifier = IdentifierObjValue.create(mockIdGenerator);
     const shortUrl = ShortUrl.create(
-      "some-expired-id", // Adicione um ID aqui
+      "some-expired-id",
       longUrl,
       payload.expiresIn,
       null,
-      identifier.getValue()
+      identifier
     );
 
     spyOnShortUrlRepositoryFindByIdentifier.mockResolvedValueOnce(shortUrl);

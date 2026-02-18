@@ -1,5 +1,3 @@
-// src/tests/integration/user/create/index.spec.ts
-
 import {
   afterAll,
   beforeAll,
@@ -50,7 +48,7 @@ describe("Create user route", () => {
   });
 
   beforeEach(() => {
-    vi.clearAllMocks(); // Limpa todos os mocks antes de cada teste
+    vi.clearAllMocks();
 
     userRepository = userRepositoryFactory();
     createUserUseCase = new CreateUserUseCase(userRepository);
