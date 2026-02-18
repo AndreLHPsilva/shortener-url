@@ -5,7 +5,6 @@ export function convertToBase(num: bigint, chars: string = BASE62_CHARS): string
     return chars[0];
   }
 
-
   const base = BigInt(chars.length);
   let result = '';
   let tempNum = num;
@@ -15,7 +14,6 @@ export function convertToBase(num: bigint, chars: string = BASE62_CHARS): string
     result = chars[Number(remainder)] + result;
     tempNum = tempNum / base;
   }
-  console.log(num, result)
 
   return result;
 }
@@ -28,7 +26,7 @@ export function convertFromBase(str: string, chars: string = BASE62_CHARS): bigi
     const char = str[i];
     const value = chars.indexOf(char);
     if (value === -1) {
-      throw new Error(`Caractere inválido '${char}' para a base especificada.`);
+      throw new Error(`Invalid character '${char}'.`);
     }
     result = result * base + BigInt(value);
   }
