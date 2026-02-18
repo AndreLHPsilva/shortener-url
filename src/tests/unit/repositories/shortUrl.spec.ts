@@ -12,6 +12,26 @@ import { ShortUrlRepository } from "@infrastructure/prisma/shortUrl/shortUrl.rep
 import { LongUrlObjValue } from "@domain/objectValues/longUrl.objValue";
 import { IdentifierObjValue } from "@domain/objectValues/identifier.objValue";
 import { toSpISOString } from "@shared/utils/date";
+import { IIdGenerator } from "@application/ports/types";
+import { convertToBase } from "@shared/utils/convert";
+
+const mockIdGenerator: IIdGenerator = {
+  nextId: vi.fn(() => 1234567890123456789n),
+};
+
+vi.mock("@shared/utils/convert", () => ({
+  convertToBase: vi.fn((id: bigint) => {
+    const base62Chars =
+      "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    let result = "";
+    let tempId = id;
+    for (let i = 0; i < 8; i++) {
+      result = base62Chars[Number(tempId % 62n)] + result;
+      tempId /= 62n;
+    }
+    return result.padStart(8, '0').slice(-8);
+  }),
+}));
 
 describe("ShortUrlRepository", () => {
   let repositoryMock: any;
@@ -19,6 +39,8 @@ describe("ShortUrlRepository", () => {
   const spies: MockInstance<(...args: any[]) => any>[] = [];
 
   beforeEach(() => {
+    vi.clearAllMocks();
+
     repositoryMock = {
       create: vi.fn(),
       findFirst: vi.fn(),
@@ -45,9 +67,17 @@ describe("ShortUrlRepository", () => {
     const longUrl = LongUrlObjValue.create(
       `${shortUrlData.protocol}//${shortUrlData.host}${shortUrlData.path}`
     );
-    const identifier = IdentifierObjValue.create();
+
+    (mockIdGenerator.nextId as ReturnType<typeof vi.fn>).mockReturnValueOnce(
+      111222333444555666n
+    );
+    (vi.mocked(convertToBase) as ReturnType<typeof vi.fn>).mockReturnValueOnce(
+      "unitTest"
+    );
+
+    const identifier = IdentifierObjValue.create(mockIdGenerator);
     const shortUrl = ShortUrl.create(
-      null,
+      "some-short-url-id",
       longUrl,
       shortUrlData.expiresIn,
       shortUrlData.userId,
@@ -68,6 +98,8 @@ describe("ShortUrlRepository", () => {
         },
       },
     });
+    expect(mockIdGenerator.nextId).toHaveBeenCalledTimes(1);
+    expect(vi.mocked(convertToBase)).toHaveBeenCalledWith(111222333444555666n);
   });
 
   it("should return null if findById returns null", async () => {
@@ -82,7 +114,7 @@ describe("ShortUrlRepository", () => {
       host: "host.com",
       path: "/abc",
       expiresIn: null,
-      identifier: "123456",
+      identifier: "12345678",
       protocol: "https:",
       deletedAt: null,
       userId: "user-1",
@@ -112,7 +144,7 @@ describe("ShortUrlRepository", () => {
 
   it("should return null if findByIdentifier returns null", async () => {
     repositoryMock.findFirst.mockResolvedValue(null);
-    const result = await shortUrlRepository.findByIdentifier("123456");
+    const result = await shortUrlRepository.findByIdentifier("12345678");
     expect(result).toBeNull();
   });
 
@@ -122,7 +154,7 @@ describe("ShortUrlRepository", () => {
       host: "host.com",
       path: "/abc",
       expiresIn: null,
-      identifier: "123456",
+      identifier: "12345678",
       protocol: "https:",
       deletedAt: null,
       userId: "user-1",
@@ -165,7 +197,7 @@ describe("ShortUrlRepository", () => {
         host: "host.com",
         path: "/abc",
         expiresIn: null,
-        identifier: "123456",
+        identifier: "12345678",
         protocol: "https:",
         deletedAt: null,
         userId: "user-1",
@@ -202,7 +234,7 @@ describe("ShortUrlRepository", () => {
         host: "host.com",
         path: "/abc",
         expiresIn: null,
-        identifier: "123456",
+        identifier: "12345678",
         protocol: "https:",
         deletedAt: null,
         userId: "user-1",
@@ -254,7 +286,7 @@ describe("ShortUrlRepository", () => {
       host: "host.com",
       path: "/abc",
       expiresIn: null,
-      identifier: "123456",
+      identifier: "12345678",
       protocol: "https:",
       deletedAt: null,
       userId: "user-1",

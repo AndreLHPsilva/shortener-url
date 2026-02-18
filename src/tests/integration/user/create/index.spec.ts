@@ -1,3 +1,5 @@
+// src/tests/integration/user/create/index.spec.ts
+
 import {
   afterAll,
   beforeAll,
@@ -16,6 +18,23 @@ import { FastifyReply, FastifyRequest } from "fastify";
 import { User } from "@domain/entities/user.entity";
 import { UserAlreadyExistsError } from "@shared/errors/UserAlreadyExistsError";
 import { ZodValidatorError } from "@shared/utils/zod/validator";
+import { IIdGenerator } from "@application/ports/types";
+
+const mockIdGenerator: IIdGenerator = {
+  nextId: vi.fn(() => 1234567890123456789n),
+};
+
+vi.mock("@infrastructure/factory/idGenerator.factory", () => ({
+  idGeneratorFactory: vi.fn(() => mockIdGenerator),
+}));
+
+vi.mock("@shared/utils/snowFlake/snowFlake", () => {
+  class MockSnowflake {
+    nextId = vi.fn(() => 1234567890123456789n);
+  }
+  return { Snowflake: MockSnowflake };
+});
+
 
 describe("Create user route", () => {
   let createUserController: CreateUserController;
@@ -31,6 +50,8 @@ describe("Create user route", () => {
   });
 
   beforeEach(() => {
+    vi.clearAllMocks(); // Limpa todos os mocks antes de cada teste
+
     userRepository = userRepositoryFactory();
     createUserUseCase = new CreateUserUseCase(userRepository);
     createUserController = new CreateUserController(createUserUseCase);

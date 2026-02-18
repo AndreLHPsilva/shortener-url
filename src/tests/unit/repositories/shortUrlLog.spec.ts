@@ -9,10 +9,10 @@ import {
 } from "vitest";
 import { ShortUrl } from "@domain/entities/shortUrl.entity";
 import { LongUrlObjValue } from "@domain/objectValues/longUrl.objValue";
-import { IdentifierObjValue } from "@domain/objectValues/identifier.objValue";
 import { ShortUrlLogRepository } from "@infrastructure/prisma/shortUrl/shortUrlLog.repository";
 import { ShortUrlLog } from "@domain/entities/shortUrlLog.entity";
 import { EActionShortUrlLog } from "@domain/interfaces/shortUrlLog.interface";
+import { IdentifierObjValue } from "@domain/objectValues/identifier.objValue";
 
 describe("ShortUrlLogRepository", () => {
   let repositoryMock: any;
@@ -44,7 +44,7 @@ describe("ShortUrlLogRepository", () => {
     const longUrl = LongUrlObjValue.create(
       `${shortUrlData.protocol}//${shortUrlData.host}${shortUrlData.path}`
     );
-    const identifier = IdentifierObjValue.create();
+    const identifier = "12345678";
     const shortUrl = ShortUrl.create(
       null,
       longUrl,

@@ -1,18 +1,18 @@
+import { IIdGenerator } from "@application/ports/types";
 import { ICreateShortUrlResponse, ICreateShortUrlUseCaseProps } from "./types";
 import { UseCase } from "@application/use-cases/contract/useCase";
 import { ShortUrl } from "@domain/entities/shortUrl.entity";
-import { IdentifierObjValue } from "@domain/objectValues/identifier.objValue";
 import { LongUrlObjValue } from "@domain/objectValues/longUrl.objValue";
 import { IShortUrlRepository } from "@infrastructure/prisma/shortUrl/contract/shortUrlRepository.interface";
 import { setAttributeActiveSpan } from "@lib/tracing";
 import { ETelemetrySpanNames } from "@lib/tracing/types";
-import { FailedGenerateIdentifierError } from "@shared/errors/FailedGenerateIdentifierError";
+import { IdentifierObjValue } from "@domain/objectValues/identifier.objValue";
 
 export class CreateShortUrlUseCase extends UseCase<
   ICreateShortUrlUseCaseProps,
   ICreateShortUrlResponse
 > {
-  constructor(private repository: IShortUrlRepository) {
+  constructor(private repository: IShortUrlRepository, private idGenerator: IIdGenerator) {
     super();
   }
 
@@ -23,36 +23,7 @@ export class CreateShortUrlUseCase extends UseCase<
   }: ICreateShortUrlUseCaseProps): Promise<ICreateShortUrlResponse> {
     const longUrlClass = LongUrlObjValue.create(longUrl);
 
-    const startGeneration = Date.now();
-    let identifier: IdentifierObjValue | null = null;
-
-    for (
-      let attempt = 0;
-      attempt < IdentifierObjValue.maxAttemptsGenerateUniqueIdentifier;
-      attempt++
-    ) {
-      const diffNowAndStart = Date.now() - startGeneration;
-      const isTimeout =
-        diffNowAndStart > IdentifierObjValue.timeoutGenerateUniqueIdentifierMs;
-
-      if (isTimeout) {
-        throw new FailedGenerateIdentifierError();
-      }
-
-      identifier = IdentifierObjValue.create();
-      const verifyAlreadyExists = await this.repository.findByIdentifier(
-        identifier.getValue()
-      );
-
-      if (verifyAlreadyExists) {
-        identifier = null;
-        continue;
-      }
-    }
-
-    if (!identifier) {
-      throw new FailedGenerateIdentifierError();
-    }
+    const identifier = IdentifierObjValue.create(this.idGenerator)
 
     const shortUrl = ShortUrl.create(
       null,
@@ -65,9 +36,7 @@ export class CreateShortUrlUseCase extends UseCase<
     await this.repository.create(shortUrl);
 
     const response = {
-      shortUrl: `${process.env.BASE_URL}/${shortUrl
-        .getProps()
-        .identifier.getValue()}`,
+      shortUrl: shortUrl.getShortUrl(),
     };
 
     setAttributeActiveSpan(ETelemetrySpanNames.RESPONSE_USE_CASE, response);

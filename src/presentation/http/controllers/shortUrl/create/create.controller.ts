@@ -16,8 +16,8 @@ export class CreateShortUrlController {
     private createShortUrlUseCase: UseCase<
       ICreateShortUrlUseCaseProps,
       ICreateShortUrlResponse
-    >
-  ) {}
+    >,
+  ) { }
   async handle(request: FastifyRequest, reply: FastifyReply) {
     const dataValidated = ZodValidatorError.parse(
       CreateShortUrlValidator,

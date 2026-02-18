@@ -1,8 +1,8 @@
-import { ShortUrlLog } from "@domain/entities/ShortUrlLog.entity";
+import { ShortUrlLog } from "@domain/entities/shortUrlLog.entity";
 import { IShortUrlLogsRepository } from "@infrastructure/prisma/shortUrl/contract/shortUrlLogsRepository.interface";
 
 export class ShortUrlLogInMemoryRepository implements IShortUrlLogsRepository {
-  constructor(private logs: ShortUrlLog[] = []) {}
+  constructor(private logs: ShortUrlLog[] = []) { }
 
   async create(shortUrl: ShortUrlLog): Promise<void> {
     const id = crypto.randomUUID();

@@ -90,7 +90,7 @@ Execute os seguintes comandos para configurar o projeto a primeira vez.
     ```
 - E depois:
     ```
-     docker-compose up --build -d
+     docker compose up -d --build
     ```
 - Aguarde alguns instantes e acesse a URL para visualizar o Swagger:
     [http://localhost:3000/docs](http://localhost:3000/docs)

@@ -1,35 +1,30 @@
 import { IdentifierNotMatchRulesError } from "@shared/errors/IdentifierNotMatchRules";
+import { IIdGenerator } from "@application/ports/types"; 
+import { convertToBase } from "@shared/utils/convert";
 
 export class IdentifierObjValue {
   private value: string;
-  static length = 6;
+  static maxLength = 8;
   static maxAttemptsGenerateUniqueIdentifier = 20;
   static timeoutGenerateUniqueIdentifierMs = 3000;
 
   constructor(value: string) {
-    if (value.length > IdentifierObjValue.length || value.length <= 0) {
+
+    if (value.length <= 0 || value.length > IdentifierObjValue.maxLength) {
       throw new IdentifierNotMatchRulesError();
     }
 
     this.value = value;
   }
 
-  static create() {
-    const value = this.generateCode();
-    return new IdentifierObjValue(value);
+  static create(idGenerator: IIdGenerator): IdentifierObjValue {
+    const idGenerated = idGenerator.nextId();
+    const identifierString = convertToBase(idGenerated);
+
+    return new IdentifierObjValue(identifierString);
   }
 
-  getValue() {
+  getValue(): string {
     return this.value;
-  }
-
-  static generateCode(length = this.length) {
-    const CHARSET =
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-    return Array.from(
-      { length },
-      () => CHARSET[Math.floor(Math.random() * CHARSET.length)]
-    ).join("");
   }
 }

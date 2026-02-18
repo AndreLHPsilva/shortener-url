@@ -1,6 +1,6 @@
 import { CreateShortUrlController } from "./create.controller";
-import { createShortUrlUseCase } from "@application/use-cases/shortUrl/create/index";
+import { makeCreateShortUrlUseCase } from "@application/use-cases/shortUrl/create/index";
 
 export const createShortUrlController = new CreateShortUrlController(
-  createShortUrlUseCase
+  makeCreateShortUrlUseCase(),
 );

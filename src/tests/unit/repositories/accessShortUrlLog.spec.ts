@@ -9,7 +9,6 @@ import {
 } from "vitest";
 import { ShortUrl } from "@domain/entities/shortUrl.entity";
 import { LongUrlObjValue } from "@domain/objectValues/longUrl.objValue";
-import { IdentifierObjValue } from "@domain/objectValues/identifier.objValue";
 import { AccessShortUrlLogRepository } from "@infrastructure/prisma/shortUrl/accessShortUrlLog.repository";
 import { AccessShortUrlLog } from "@domain/entities/accessShortUrlLog.entity";
 import { IAccessShortUrlLog } from "@domain/interfaces/accessShortUrlLog.interface";
@@ -44,7 +43,7 @@ describe("AccessShortUrlLog", () => {
       LongUrlObjValue.create("https://teste.com.br"),
       null,
       "userId",
-      IdentifierObjValue.create()
+      "12345678"
     );
 
     const accessShortUrlLog = AccessShortUrlLog.create(
@@ -84,7 +83,7 @@ describe("AccessShortUrlLog", () => {
       LongUrlObjValue.create("https://teste.com.br"),
       null,
       "userId",
-      IdentifierObjValue.create()
+      "12345678"
     );
 
     repositoryMock.findFirst.mockResolvedValue(accessShortUrlLogData);

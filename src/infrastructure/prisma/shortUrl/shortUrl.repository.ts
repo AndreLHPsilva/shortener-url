@@ -5,7 +5,7 @@ import { ShortUrl } from "@domain/entities/shortUrl.entity";
 import { IShortUrl } from "@domain/interfaces/shortUrl.interface";
 
 export class ShortUrlRepository implements IShortUrlRepository {
-  constructor(private repository = prisma.shortUrls) {}
+  constructor(private repository = prisma.shortUrls) { }
 
   async create(shortUrl: ShortUrl): Promise<void> {
     const shortUrlData = shortUrl.getProps();
@@ -73,8 +73,8 @@ export class ShortUrlRepository implements IShortUrlRepository {
       },
     });
 
-    const shortUrlsFormatted = shortUrls.map((shortUrl) => {
-      return ShortUrl.transformFromInternalClass(shortUrl as IShortUrl);
+    const shortUrlsFormatted = shortUrls.map((shortUrl: IShortUrl) => {
+      return ShortUrl.transformFromInternalClass(shortUrl);
     });
 
     return shortUrlsFormatted;

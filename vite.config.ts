@@ -1,9 +1,12 @@
 import { defineConfig } from "vitest/config";
 import path from "path";
 import { config } from "dotenv";
+import tsconfigPaths from 'vite-tsconfig-paths';
+
 config();
 
 export default defineConfig({
+  plugins: [tsconfigPaths()],
   resolve: {
     alias: {
       "@domain": path.resolve(__dirname, "src/domain"),

@@ -1,23 +1,30 @@
 import { ShortUrl } from "@domain/entities/shortUrl.entity";
 import { IShortUrl } from "@domain/interfaces/shortUrl.interface";
-import { IdentifierObjValue } from "@domain/objectValues/identifier.objValue";
 import { LongUrlObjValue } from "@domain/objectValues/longUrl.objValue";
 import { ShortUrlAlreadyDeletedError } from "@shared/errors/ShortUrlAlreadyDeletedError";
 import { toSpISOString } from "@shared/utils/date/index";
 import { describe, expect, test } from "vitest";
+import { IdentifierObjValue } from "@domain/objectValues/identifier.objValue";
 
 describe("ShortUrl Entity", () => {
   test("should create new instance", () => {
     const longUrl = LongUrlObjValue.create("https://teste.com.br");
-    const identifier = IdentifierObjValue.create();
-    const shortUrl = ShortUrl.create(null, longUrl, null, null, identifier);
+    const identifierString = "12345678";
+    const identifier = new IdentifierObjValue(identifierString);
+
+    const shortUrl = ShortUrl.create(
+      null,
+      longUrl,
+      null,
+      null,
+      identifier
+    );
     const longUrlProps = longUrl.getProps();
     const props = shortUrl.getProps();
 
     expect(shortUrl).toBeDefined();
     expect(shortUrl).toBeInstanceOf(ShortUrl);
-    expect(props.identifier).toBe(identifier);
-    expect(props.identifier.getValue()).toBe(identifier.getValue());
+    expect(props.identifier.getValue()).toBe(identifierString);
     expect(props.host).toBe(longUrlProps.host);
     expect(props.path).toBe(longUrlProps.path);
     expect(props.protocol).toBe(longUrlProps.protocol);

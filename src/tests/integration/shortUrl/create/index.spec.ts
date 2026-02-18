@@ -26,8 +26,28 @@ import { userRepositoryFactory } from "@infrastructure/factory/userRepository.fa
 import { IUserJwt } from "@shared/types/types";
 import { ShortUrl } from "@domain/entities/shortUrl.entity";
 import { toSpISOString } from "@shared/utils/date/index";
+import { IIdGenerator } from "@application/ports/types";
+import { convertToBase } from "@shared/utils/convert";
+import { IdentifierNotMatchRulesError } from "@shared/errors/IdentifierNotMatchRules";
 import { IdentifierObjValue } from "@domain/objectValues/identifier.objValue";
-import { FailedGenerateIdentifierError } from "@shared/errors/FailedGenerateIdentifierError";
+
+const mockIdGenerator: IIdGenerator = {
+  nextId: vi.fn(() => 1234567890123456789n),
+};
+
+vi.mock("@shared/utils/convert", () => ({
+  convertToBase: vi.fn((id: bigint) => {
+    const base62Chars =
+      "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    let result = "";
+    let tempId = id;
+    for (let i = 0; i < 8; i++) {
+      result = base62Chars[Number(tempId % 62n)] + result;
+      tempId /= 62n;
+    }
+    return result.padStart(8, '0').slice(-8);
+  }),
+}));
 
 describe("Create short url route", () => {
   let userRepository: IUserRepository;
@@ -46,11 +66,17 @@ describe("Create short url route", () => {
   });
 
   beforeEach(() => {
+    vi.clearAllMocks();
+
     userRepository = userRepositoryFactory();
     useCaseSignin = new SigninUseCase(userRepository);
     useCaseCreateUser = new CreateUserUseCase(userRepository);
     shortUrlRepository = shortUrlRepositoryFactory();
-    useCaseCreateShortUrl = new CreateShortUrlUseCase(shortUrlRepository);
+
+    useCaseCreateShortUrl = new CreateShortUrlUseCase(
+      shortUrlRepository,
+      mockIdGenerator
+    );
     controllerCreateShortUrl = new CreateShortUrlController(
       useCaseCreateShortUrl
     );
@@ -92,6 +118,14 @@ describe("Create short url route", () => {
       }),
     } as unknown as FastifyReply;
 
+    (mockIdGenerator.nextId as ReturnType<typeof vi.fn>).mockReturnValueOnce(
+      111222333444555666n
+    );
+
+    (vi.mocked(convertToBase) as ReturnType<typeof vi.fn>).mockReturnValueOnce(
+      "testID01"
+    );
+
     const response = await controllerCreateShortUrl.handle(request, reply);
 
     expect(response).toEqual(
@@ -107,34 +141,39 @@ describe("Create short url route", () => {
     const shortUrl = shortUrls[0];
     const props = shortUrl.getProps();
 
-    expect(shortUrl).toBeInstanceOf(Object);
+    expect(shortUrl).toBeInstanceOf(ShortUrl);
     expect(shortUrl?.getUrl()).toBe(payload.longUrl);
     expect(props?.expiresIn).toBe(payload.expiresIn);
     expect(props?.userId).toBe(user.id);
+    expect(props?.identifier.getValue()).toBe("testID01");
+
+    expect(mockIdGenerator.nextId).toHaveBeenCalledTimes(1);
+    expect(vi.mocked(convertToBase)).toHaveBeenCalledWith(111222333444555666n);
   });
 
   test("should throw FailedGenerateIdentifierError if unable to generate unique identifier", async () => {
-    const shortUrlId = crypto.randomUUID();
-    const identifier = new IdentifierObjValue("123456");
-    const shortUrl = new ShortUrl(
-      shortUrlId,
-      "localhost:3000",
-      null,
-      null,
-      "userId",
-      toSpISOString(),
-      toSpISOString(),
-      identifier,
-      "/teste",
-      "http:"
-    );
-
+    const identifier = new IdentifierObjValue("failID01")
     vi.spyOn(shortUrlRepository, "findByIdentifier").mockResolvedValue(
-      shortUrl
+      new ShortUrl(
+        crypto.randomUUID(),
+        "localhost:3000",
+        null,
+        null,
+        "userId",
+        toSpISOString(),
+        toSpISOString(),
+        identifier,
+        "/teste",
+        "http:"
+      )
     );
 
-    IdentifierObjValue.maxAttemptsGenerateUniqueIdentifier = 1;
-    IdentifierObjValue.timeoutGenerateUniqueIdentifierMs = 50;
+    (mockIdGenerator.nextId as ReturnType<typeof vi.fn>).mockReturnValue(
+      123n
+    );
+    (vi.mocked(convertToBase) as ReturnType<typeof vi.fn>).mockReturnValue(
+      "failID012"
+    );
 
     const payload = {
       longUrl: "http://localhost:3000/fail-test",
@@ -142,8 +181,8 @@ describe("Create short url route", () => {
       userId: "user-id-test",
     };
 
-    await expect(useCaseCreateShortUrl.execute(payload)).rejects.toThrowError(
-      FailedGenerateIdentifierError
-    );
+    await expect(
+      useCaseCreateShortUrl.execute(payload)
+    ).rejects.toThrowError(IdentifierNotMatchRulesError);
   });
 });
